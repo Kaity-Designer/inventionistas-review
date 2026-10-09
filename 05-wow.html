@@ -11,10 +11,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <style>
   :root{
-    --bg:#0a0a0c; --text:#edecf2; --dim:#908f9c; --faint:#5a5964;
-    --line:rgba(255,255,255,0.1); --line2:rgba(255,255,255,0.18); --violet:#a78bfa;
+    --bg:#f4f1ea; --surface:#faf8f2; --text:#16140f; --dim:#655f54; --faint:#a39d90;
+    --line:rgba(22,20,15,0.13); --line2:rgba(22,20,15,0.22); --violet:#6d4bf2;
     --disp:'Space Grotesk',system-ui,sans-serif; --mono:'Space Mono',monospace;
-    color-scheme:dark;
+    color-scheme:light;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -26,7 +26,7 @@
   .label{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--faint)}
 
   /* top bar */
-  header{position:sticky; top:0; z-index:40; backdrop-filter:blur(10px); background:rgba(10,10,12,.55); border-bottom:1px solid var(--line)}
+  header{position:sticky; top:0; z-index:40; backdrop-filter:blur(10px); background:rgba(244,241,234,.7); border-bottom:1px solid var(--line)}
   .bar{display:flex; align-items:center; justify-content:space-between; height:68px}
   .brand{display:flex; align-items:center; gap:11px; font-weight:600; font-size:15px}
   .brand svg{width:25px; height:28px; display:block}
@@ -40,7 +40,7 @@
   h1{font-family:var(--disp); font-weight:700; font-size:clamp(52px,11.5vw,150px); line-height:.9; letter-spacing:-.04em; margin:0}
   h1 .word{display:inline-block; will-change:transform}
   h1 .violet{color:var(--violet)}
-  .lede{font-size:clamp(17px,2.1vw,22px); line-height:1.5; color:var(--dim); max-width:620px; margin:34px 0 0}
+  .lede{font-size:clamp(17px,2.1vw,22px); line-height:1.5; color:#3b372f; max-width:620px; margin:34px 0 0}
   .lede b{color:var(--text); font-weight:500}
   .scrollcue{position:absolute; bottom:22px; left:30px; font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--faint); display:flex; align-items:center; gap:10px}
   .scrollcue .ln{width:40px; height:1px; background:var(--line2); position:relative; overflow:hidden}
@@ -78,7 +78,7 @@
   .contact-h{font-size:clamp(34px,6vw,68px); font-weight:700; letter-spacing:-.035em; line-height:.98}
   .contact-p{color:var(--dim); font-size:17.5px; margin-top:22px; max-width:28em; line-height:1.6}
   .mail{display:inline-flex; align-items:center; gap:13px; font-family:var(--mono); font-size:clamp(14px,1.8vw,18px); text-decoration:none; color:var(--text); border:1px solid var(--line2); border-radius:52px; padding:17px 26px; transition:border-color .3s,background .3s,transform .3s}
-  .mail:hover{border-color:var(--violet); background:rgba(167,139,250,.08); transform:translateY(-2px)}
+  .mail:hover{border-color:var(--violet); background:rgba(109,75,242,.08); transform:translateY(-2px)}
   .mail .dot{width:8px;height:8px;border-radius:50%;background:var(--violet)}
 
   footer{border-top:1px solid var(--line); padding:34px 0 60px}
@@ -105,10 +105,10 @@
   <div class="wrap bar">
     <div class="brand">
       <svg viewBox="0 0 40 44" fill="none" aria-hidden="true">
-        <circle cx="20" cy="16" r="11" stroke="#edecf2" stroke-width="1.7"/>
-        <line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#edecf2" stroke-width="1.7" stroke-linecap="round"/>
-        <path d="M17.5 33.5 h5 l-1 3.5 h-3 Z" fill="#edecf2"/>
-        <path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#a78bfa"/>
+        <circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="1.7"/>
+        <line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#16140f" stroke-width="1.7" stroke-linecap="round"/>
+        <path d="M17.5 33.5 h5 l-1 3.5 h-3 Z" fill="#16140f"/>
+        <path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/>
       </svg>
       Inventionistas
     </div>
@@ -122,10 +122,10 @@
   <section class="hero" style="border-top:none">
     <div class="eyebrow" data-hero>AI for invention</div>
     <svg class="mark" data-hero viewBox="0 0 40 44" fill="none" aria-hidden="true">
-      <circle cx="20" cy="16" r="11" stroke="#edecf2" stroke-width="1.7"/>
-      <line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#edecf2" stroke-width="1.7" stroke-linecap="round"/>
-      <path d="M17.5 33.5 h5 l-1 3.5 h-3 Z" fill="#edecf2"/>
-      <path id="heroSpark" d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#a78bfa"/>
+      <circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="1.7"/>
+      <line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#16140f" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M17.5 33.5 h5 l-1 3.5 h-3 Z" fill="#16140f"/>
+      <path id="heroSpark" d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/>
     </svg>
     <h1 id="headline" aria-label="Building AI Inventors.">Building <span class="violet">AI</span> Inventors.</h1>
     <p class="lede" data-hero>How can we harness AI to drive humankind forward? What if AI was truly creative? How can we recombine the vast scientific literature and human expertise to create <b>breakthroughs</b> toward a healthier and more sustainable world?</p>
@@ -176,7 +176,7 @@
       </div>
     </div>
     <p class="loop-note reveal">
-      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.46-3.54" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round"/><path d="M11 1.5 L11.5 4.5 L8.5 4.2" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.46-3.54" stroke="#6d4bf2" stroke-width="1.5" stroke-linecap="round"/><path d="M11 1.5 L11.5 4.5 L8.5 4.2" stroke="#6d4bf2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Then it repeats, on its own
     </p>
   </section>

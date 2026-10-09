@@ -9,8 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0a0a0c; --text:#e9e8ec; --dim:#8f8e99; --faint:#5c5b66;
-    --violet:#a78bfa; --line:rgba(255,255,255,0.10);
+    color-scheme:light;
+    --bg:#f4f1ea; --surface:#faf8f2; --text:#16140f; --dim:#655f54; --faint:#a39d90;
+    --violet:#6d4bf2; --line:rgba(22,20,15,0.13);
     --display:'Space Grotesk',sans-serif; --mono:'Space Mono',monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -32,7 +33,7 @@
     position:fixed; top:0; left:0; right:0; z-index:20;
     display:flex; align-items:center; justify-content:space-between;
     padding:18px 28px; backdrop-filter:blur(8px);
-    background:linear-gradient(to bottom, rgba(10,10,12,0.85), rgba(10,10,12,0));
+    background:linear-gradient(to bottom, rgba(244,241,234,0.85), rgba(244,241,234,0));
   }
   .brand{display:flex; align-items:center; gap:11px; font-weight:600; font-size:16px; letter-spacing:-.01em}
   .brand svg{width:30px; height:33px; display:block}
@@ -46,7 +47,7 @@
   .hero-scrim{
     position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
     width:140%; height:120%;
-    background:radial-gradient(ellipse 48% 54% at 50% 50%, rgba(10,10,12,0.92) 0%, rgba(10,10,12,0.72) 42%, rgba(10,10,12,0) 78%);
+    background:radial-gradient(ellipse 48% 54% at 50% 50%, rgba(244,241,234,0.92) 0%, rgba(244,241,234,0.72) 42%, rgba(244,241,234,0) 78%);
     pointer-events:none;
   }
   .hero-inner{position:relative; z-index:2; max-width:760px}
@@ -67,7 +68,7 @@
   .thesis-body b{color:var(--text); font-weight:500}
 
   .points{display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:64px; background:var(--line); border:1px solid var(--line)}
-  .point{background:var(--bg); padding:40px 36px}
+  .point{background:var(--surface); padding:40px 36px}
   .point .n{font-family:var(--mono); font-size:12px; color:var(--violet); letter-spacing:.1em}
   .point h3{font-size:1.32rem; font-weight:600; letter-spacing:-.01em; margin:16px 0 12px}
   .point p{color:var(--dim); font-size:1rem}
@@ -76,7 +77,7 @@
   .loop-head{display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:16px}
   .loop-lead{font-size:clamp(1.3rem,3vw,1.85rem); font-weight:500; letter-spacing:-.02em; max-width:560px}
   .steps{margin-top:60px; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line)}
-  .step{background:var(--bg); padding:38px 32px; position:relative}
+  .step{background:var(--surface); padding:38px 32px; position:relative}
   .step .sn{font-family:var(--mono); font-size:30px; font-weight:700; color:var(--faint); letter-spacing:-.02em}
   .step .verb{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--violet); margin:14px 0 8px}
   .step h4{font-size:1.18rem; font-weight:600; margin-bottom:12px; letter-spacing:-.01em}
@@ -112,10 +113,10 @@
   <header class="topbar">
     <div class="brand">
       <svg viewBox="0 0 40 44" fill="none" aria-hidden="true">
-        <circle cx="20" cy="16" r="11" stroke="#e9e8ec" stroke-width="1.7"/>
-        <line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#e9e8ec" stroke-width="1.7" stroke-linecap="round"/>
-        <path d="M17.5 33.5 h5 l-1 3.5 h-3 Z" fill="#e9e8ec"/>
-        <path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#a78bfa"/>
+        <circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="1.7"/>
+        <line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#16140f" stroke-width="1.7" stroke-linecap="round"/>
+        <path d="M17.5 33.5 h5 l-1 3.5 h-3 Z" fill="#16140f"/>
+        <path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/>
       </svg>
       Inventionistas
     </div>
@@ -200,10 +201,10 @@
   <footer>
     <div class="wrap">
       <svg viewBox="0 0 40 44" fill="none" aria-hidden="true">
-        <circle cx="20" cy="16" r="11" stroke="#8f8e99" stroke-width="1.7"/>
-        <line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#8f8e99" stroke-width="1.7" stroke-linecap="round"/>
-        <path d="M17.5 33.5 h5 l-1 3.5 h-3 Z" fill="#8f8e99"/>
-        <path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#a78bfa"/>
+        <circle cx="20" cy="16" r="11" stroke="#655f54" stroke-width="1.7"/>
+        <line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#655f54" stroke-width="1.7" stroke-linecap="round"/>
+        <path d="M17.5 33.5 h5 l-1 3.5 h-3 Z" fill="#655f54"/>
+        <path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/>
       </svg>
       Inventionistas &middot; Building AI Inventors. &middot; inventionistas.com
     </div>
@@ -277,8 +278,8 @@
         var nj=nodes[j];
         var d=Math.sqrt((ni.x+ni.ox-nj.x-nj.ox)*(ni.x+ni.ox-nj.x-nj.ox)+(ni.y+ni.oy-nj.y-nj.oy)*(ni.y+ni.oy-nj.y-nj.oy));
         if(d<NEAR){
-          var al=(1-d/NEAR)*0.14;
-          ctx.strokeStyle='rgba(255,255,255,'+al.toFixed(3)+')';
+          var al=(1-d/NEAR)*0.16;
+          ctx.strokeStyle='rgba(22,20,15,'+al.toFixed(3)+')';
           ctx.lineWidth=1;
           ctx.beginPath();
           ctx.moveTo(ni.x+ni.ox,ni.y+ni.oy);
@@ -297,15 +298,15 @@
         sa=nodes[spark.a]; sb=nodes[spark.b];
         var ax=sa.x+sa.ox, ay=sa.y+sa.oy, bx=sb.x+sb.ox, by=sb.y+sb.oy;
         var fade=Math.sin(Math.min(p,1)*Math.PI); // ease in/out
-        ctx.strokeStyle='rgba(167,139,250,'+(fade*0.5).toFixed(3)+')';
+        ctx.strokeStyle='rgba(109,75,242,'+(fade*0.5).toFixed(3)+')';
         ctx.lineWidth=1.2;
         ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
         // travelling dot
         var tp=Math.min(p/0.85,1);
         var px=ax+(bx-ax)*tp, py=ay+(by-ay)*tp;
-        ctx.fillStyle='#a78bfa';
+        ctx.fillStyle='#6d4bf2';
         ctx.beginPath(); ctx.arc(px,py,2.6,0,Math.PI*2); ctx.fill();
-        ctx.fillStyle='rgba(167,139,250,'+(fade*0.25).toFixed(3)+')';
+        ctx.fillStyle='rgba(109,75,242,'+(fade*0.25).toFixed(3)+')';
         ctx.beginPath(); ctx.arc(px,py,6,0,Math.PI*2); ctx.fill();
       }
     }
@@ -316,9 +317,9 @@
     for(var m=0;m<nodes.length;m++){
       var nn=nodes[m], nx=nn.x+nn.ox, ny=nn.y+nn.oy;
       var hot = sa&&(nn===sa||nn===sb);
-      ctx.fillStyle = hot ? '#a78bfa' : 'rgba(233,232,236,0.55)';
+      ctx.fillStyle = hot ? '#6d4bf2' : 'rgba(22,20,15,0.55)';
       ctx.beginPath(); ctx.arc(nx,ny, hot?2.6:1.6, 0, Math.PI*2); ctx.fill();
-      ctx.fillStyle = hot ? 'rgba(167,139,250,0.95)' : 'rgba(143,142,153,0.5)';
+      ctx.fillStyle = hot ? 'rgba(109,75,242,0.95)' : 'rgba(22,20,15,0.5)';
       ctx.fillText(nn.label, nx+7, ny);
     }
   }
