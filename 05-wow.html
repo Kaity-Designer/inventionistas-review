@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Inventionistas · Building AI Inventors</title>
+<meta name="description" content="Building AI Inventors. Inventionistas builds AI for invention: autoresearch systems that make bigger leaps to find novel solutions, tested on real industry problems." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  :root{
+    --bg:#0a0a0c; --text:#edecf2; --dim:#908f9c; --faint:#5a5964;
+    --line:rgba(255,255,255,0.1); --line2:rgba(255,255,255,0.18); --violet:#a78bfa;
+    --disp:'Space Grotesk',system-ui,sans-serif; --mono:'Space Mono',monospace;
+    color-scheme:dark;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg); color:var(--text); font-family:var(--disp); line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 30px}
+  a{color:inherit}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:var(--violet); display:inline-flex; gap:10px; align-items:center}
+  .eyebrow::before{content:""; width:24px; height:1px; background:var(--violet); opacity:.6}
+  .label{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--faint)}
+
+  /* top bar */
+  header{position:sticky; top:0; z-index:40; backdrop-filter:blur(10px); background:rgba(10,10,12,.55); border-bottom:1px solid var(--line)}
+  .bar{display:flex; align-items:center; justify-content:space-between; height:68px}
+  .brand{display:flex; align-items:center; gap:11px; font-weight:600; font-size:15px}
+  .brand svg{width:25px; height:28px; display:block}
+  .barmail{font-family:var(--mono); font-size:12.5px; color:var(--dim); text-decoration:none; transition:color .25s}
+  .barmail:hover{color:var(--text)}
+  @media(max-width:560px){ .barmail{display:none} }
+
+  /* hero */
+  .hero{min-height:calc(100vh - 68px); display:flex; flex-direction:column; justify-content:center; padding:40px 0 56px; position:relative}
+  .hero .mark{width:64px; height:71px; margin:22px 0 26px; display:block}
+  h1{font-family:var(--disp); font-weight:700; font-size:clamp(52px,11.5vw,150px); line-height:.9; letter-spacing:-.04em; margin:0}
+  h1 .word{display:inline-block; will-change:transform}
+  h1 .violet{color:var(--violet)}
+  .lede{font-size:clamp(17px,2.1vw,22px); line-height:1.5; color:var(--dim); max-width:620px; margin:34px 0 0}
+  .lede b{color:var(--text); font-weight:500}
+  .scrollcue{position:absolute; bottom:22px; left:30px; font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--faint); display:flex; align-items:center; gap:10px}
+  .scrollcue .ln{width:40px; height:1px; background:var(--line2); position:relative; overflow:hidden}
+  .scrollcue .ln::after{content:""; position:absolute; inset:0; width:40%; background:var(--violet); animation:scan 2.2s ease-in-out infinite}
+  @keyframes scan{0%{transform:translateX(-100%)}60%,100%{transform:translateX(250%)}}
+
+  /* sections */
+  section{padding:104px 0; border-top:1px solid var(--line)}
+  .reveal{opacity:0; transform:translateY(22px)}
+  .no-enh .reveal{opacity:1; transform:none}
+  .thesis-lead{font-size:clamp(23px,3.6vw,40px); font-weight:500; letter-spacing:-.025em; line-height:1.18; max-width:17em; margin:26px 0 22px}
+  .thesis-lead .violet{color:var(--violet)}
+  .thesis-body{font-size:17.5px; color:var(--dim); max-width:40em; line-height:1.62}
+  .thesis-body b{color:var(--text); font-weight:600}
+
+  .points{display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:60px; border-top:1px solid var(--line)}
+  .point{padding:30px 30px 30px 0; border-top:1px solid transparent}
+  .point:nth-child(2){padding-left:30px; border-left:1px solid var(--line)}
+  .point .n{font-family:var(--mono); font-size:12px; color:var(--violet); letter-spacing:.12em}
+  .point h3{font-size:clamp(20px,2.4vw,26px); font-weight:600; letter-spacing:-.02em; margin:14px 0 10px}
+  .point p{color:var(--dim); font-size:15.5px; line-height:1.55; max-width:26em}
+
+  .loop-lead{font-size:clamp(22px,3.3vw,36px); font-weight:500; letter-spacing:-.02em; margin:24px 0 0}
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:56px; border-top:1px solid var(--line)}
+  .step{padding:34px 26px 30px 0}
+  .step + .step{padding-left:26px; border-left:1px solid var(--line)}
+  .step .sn{font-family:var(--mono); font-size:34px; font-weight:700; color:var(--violet); line-height:1}
+  .step .sk{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); margin:12px 0 16px}
+  .step h4{font-size:19px; font-weight:600; letter-spacing:-.015em; margin-bottom:9px}
+  .step p{color:var(--dim); font-size:15px; line-height:1.55}
+  .loop-note{margin-top:26px; font-family:var(--mono); font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); display:inline-flex; align-items:center; gap:11px}
+  .loop-note svg{width:15px;height:15px}
+
+  .contact{display:grid; grid-template-columns:1.2fr 1fr; gap:48px; align-items:end}
+  .contact-h{font-size:clamp(34px,6vw,68px); font-weight:700; letter-spacing:-.035em; line-height:.98}
+  .contact-p{color:var(--dim); font-size:17.5px; margin-top:22px; max-width:28em; line-height:1.6}
+  .mail{display:inline-flex; align-items:center; gap:13px; font-family:var(--mono); font-size:clamp(14px,1.8vw,18px); text-decoration:none; color:var(--text); border:1px solid var(--line2); border-radius:52px; padding:17px 26px; transition:border-color .3s,background .3s,transform .3s}
+  .mail:hover{border-color:var(--violet); background:rgba(167,139,250,.08); transform:translateY(-2px)}
+  .mail .dot{width:8px;height:8px;border-radius:50%;background:var(--violet)}
+
+  footer{border-top:1px solid var(--line); padding:34px 0 60px}
+  .foot{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; font-family:var(--mono); font-size:12px; color:var(--faint); letter-spacing:.03em}
+  .foot a{text-decoration:none}
+
+  @media(max-width:760px){
+    .points,.steps,.contact{grid-template-columns:1fr}
+    .point:nth-child(2){padding-left:0; border-left:none; border-top:1px solid var(--line)}
+    .step + .step{padding-left:0; border-left:none; border-top:1px solid var(--line)}
+    section{padding:74px 0}
+    .contact{gap:30px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1!important; transform:none!important}
+    .scrollcue .ln::after{animation:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <div class="brand">
+      <svg viewBox="0 0 40 44" fill="none" aria-hidden="true">
+        <circle cx="20" cy="16" r="11" stroke="#edecf2" stroke-width="1.7"/>
+        <line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#edecf2" stroke-width="1.7" stroke-linecap="round"/>
+        <path d="M17.5 33.5 h5 l-1 3.5 h-3 Z" fill="#edecf2"/>
+        <path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#a78bfa"/>
+      </svg>
+      Inventionistas
+    </div>
+    <a class="barmail" href="mailto:founders@inventionistas.com">founders@inventionistas.com</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <section class="hero" style="border-top:none">
+    <div class="eyebrow" data-hero>AI for invention</div>
+    <svg class="mark" data-hero viewBox="0 0 40 44" fill="none" aria-hidden="true">
+      <circle cx="20" cy="16" r="11" stroke="#edecf2" stroke-width="1.7"/>
+      <line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#edecf2" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M17.5 33.5 h5 l-1 3.5 h-3 Z" fill="#edecf2"/>
+      <path id="heroSpark" d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#a78bfa"/>
+    </svg>
+    <h1 id="headline" aria-label="Building AI Inventors.">Building <span class="violet">AI</span> Inventors.</h1>
+    <p class="lede" data-hero>How can we harness AI to drive humankind forward? What if AI was truly creative? How can we recombine the vast scientific literature and human expertise to create <b>breakthroughs</b> toward a healthier and more sustainable world?</p>
+    <div class="scrollcue"><span class="ln"></span> Scroll</div>
+  </section>
+
+  <!-- THESIS -->
+  <section>
+    <p class="label reveal">The thesis</p>
+    <p class="thesis-lead reveal">AI research agents are very good at improving what already exists: tuning parameters, polishing a known solution, <span class="violet">climbing the nearest hill.</span></p>
+    <p class="thesis-body reveal">They rarely step back to question fundamental assumptions, missing the uncharted, counterintuitive paths that lead to vastly higher peaks. That is where breakthroughs come from. We are building <b>AI for invention</b>: systems that make bigger leaps to find novel solutions, tested on real industry problems.</p>
+    <div class="points">
+      <div class="point reveal">
+        <div class="n">01</div>
+        <h3>Big leaps, not only fine-tuning.</h3>
+        <p>Most AI agents polish an existing solution. We want new ways of looking at a problem.</p>
+      </div>
+      <div class="point reveal">
+        <div class="n">02</div>
+        <h3>Real problems, not toy problems.</h3>
+        <p>We test our work on problems that matter outside a benchmark.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOOP -->
+  <section>
+    <p class="label reveal">The autoresearch loop</p>
+    <p class="loop-lead reveal">AI that runs the research loop by itself.</p>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="sn">01</div>
+        <div class="sk">Propose</div>
+        <h4>Generate ideas</h4>
+        <p>It proposes hypotheses, recombining insight from distant and unconnected fields.</p>
+      </div>
+      <div class="step reveal">
+        <div class="sn">02</div>
+        <div class="sk">Experiment</div>
+        <h4>Run experiments</h4>
+        <p>It designs and runs tests to put each idea under real pressure.</p>
+      </div>
+      <div class="step reveal">
+        <div class="sn">03</div>
+        <div class="sk">Verify</div>
+        <h4>Check results</h4>
+        <p>It keeps what holds, discards what fails, and starts the loop again.</p>
+      </div>
+    </div>
+    <p class="loop-note reveal">
+      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.46-3.54" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round"/><path d="M11 1.5 L11.5 4.5 L8.5 4.2" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Then it repeats, on its own
+    </p>
+  </section>
+
+  <!-- CONTACT -->
+  <section>
+    <div class="contact">
+      <div>
+        <p class="label reveal">Get in touch</p>
+        <h2 class="contact-h reveal" style="margin-top:18px">Wanna build with us?</h2>
+        <p class="contact-p reveal">For researchers who want to collaborate, and for teams with hard, real problems that could be good test cases.</p>
+      </div>
+      <div class="reveal">
+        <a class="mail" href="mailto:founders@inventionistas.com"><span class="dot"></span> founders@inventionistas.com</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <div class="foot">
+    <span>Inventionistas</span>
+    <span>Building AI Inventors.</span>
+    <a href="mailto:founders@inventionistas.com">inventionistas.com</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasGsap = typeof window.gsap !== 'undefined';
+
+  // Split the headline into falling words (keep the colored span intact).
+  var h1 = document.getElementById('headline');
+  function splitWords(node){
+    var out = [];
+    node.childNodes.forEach ? null : 0;
+    Array.prototype.slice.call(node.childNodes).forEach(function(n){
+      if(n.nodeType === 3){ // text
+        n.textContent.split(/(\s+)/).forEach(function(tok){
+          if(tok.trim()===''){ out.push(document.createTextNode(tok)); }
+          else { var s=document.createElement('span'); s.className='word'; s.textContent=tok; out.push(s); }
+        });
+      } else { // element (the .violet span) -> wrap as one word
+        n.classList.add('word'); out.push(n);
+      }
+    });
+    node.innerHTML=''; out.forEach(function(x){ node.appendChild(x); });
+    return node.querySelectorAll('.word');
+  }
+
+  if(reduce || !hasGsap){
+    document.body.classList.add('no-enh'); // CSS shows all reveals
+    return;
+  }
+
+  var words = splitWords(h1);
+  gsap.set('[data-hero]', { opacity:0, y:16 });
+  gsap.set('#heroSpark', { transformOrigin:'20px 16px', scale:0, opacity:0 });
+  gsap.set(words, { yPercent:-130, opacity:0, rotation:function(){ return gsap.utils.random(-7,7); } });
+
+  var tl = gsap.timeline({ delay:0.15 });
+  tl.to('.eyebrow[data-hero]', { opacity:1, y:0, duration:0.6, ease:'power2.out' }, 0)
+    .to('.mark[data-hero]', { opacity:1, y:0, duration:0.6, ease:'power2.out' }, 0.08)
+    .to('#heroSpark', { scale:1, opacity:1, duration:0.5, ease:'back.out(3)' }, 0.35)
+    // the falling headline: words drop in and settle with a bounce
+    .to(words, { yPercent:0, opacity:1, rotation:0, duration:1.1, ease:'bounce.out', stagger:0.1 }, 0.3)
+    .to('.lede[data-hero]', { opacity:1, y:0, duration:0.7, ease:'power2.out' }, 0.9);
+
+  // scroll reveals via IntersectionObserver (native, robust), animated with gsap
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        gsap.to(e.target, { opacity:1, y:0, duration:0.75, ease:'power3.out' });
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold:0.16, rootMargin:'0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(function(el){ gsap.set(el,{opacity:0,y:22}); io.observe(el); });
+})();
+</script>
+</body>
+</html>

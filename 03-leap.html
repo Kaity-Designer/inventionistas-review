@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventionistas · Building AI Inventors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0c; --text:#e9e8ec; --dim:#8f8e99; --faint:#5c5b66;
+    --line:rgba(255,255,255,0.1); --violet:#a78bfa;
+    --disp:'Space Grotesk',sans-serif; --mono:'Space Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--disp);
+    -webkit-font-smoothing:antialiased; line-height:1.5; overflow-x:hidden;
+  }
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--violet)}
+  .label{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--faint)}
+  a{color:inherit}
+
+  /* intro veil */
+  #veil{position:fixed; inset:0; background:var(--bg); z-index:50; pointer-events:none}
+
+  /* top bar */
+  header{position:sticky; top:0; z-index:40; backdrop-filter:blur(8px); background:rgba(10,10,12,.6); border-bottom:1px solid var(--line)}
+  .bar{display:flex; align-items:center; justify-content:space-between; height:66px}
+  .brand{display:flex; align-items:center; gap:11px; font-weight:600; font-size:15px; letter-spacing:-.01em}
+  .brand svg{width:26px; height:29px; display:block}
+  .barlink{font-family:var(--mono); font-size:12px; letter-spacing:.06em; color:var(--dim); text-decoration:none; border:1px solid var(--line); padding:8px 15px; border-radius:40px; transition:border-color .3s,color .3s}
+  .barlink:hover{color:var(--text); border-color:rgba(255,255,255,.28)}
+
+  /* hero */
+  .hero{padding:78px 0 60px}
+  .hero-grid{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center}
+  h1{font-size:clamp(44px,7.4vw,92px); line-height:.96; font-weight:700; letter-spacing:-.035em; margin:20px 0 26px}
+  .lede{font-size:clamp(16px,2vw,19px); color:var(--dim); max-width:30em; line-height:1.55}
+  .scene{position:relative; width:100%; aspect-ratio:1/0.92}
+  .scene svg{width:100%; height:100%; display:block; overflow:visible}
+
+  /* sections */
+  section{padding:88px 0; border-top:1px solid var(--line)}
+  .reveal{opacity:0; transform:translateY(26px)}
+  .thesis-lead{font-size:clamp(22px,3.3vw,34px); font-weight:500; letter-spacing:-.02em; line-height:1.2; max-width:20em; margin:26px 0 22px}
+  .thesis-body{font-size:17px; color:var(--dim); max-width:38em; line-height:1.6}
+  .thesis-body b{color:var(--text); font-weight:600}
+
+  .points{display:grid; grid-template-columns:1fr 1fr; gap:26px; margin-top:52px}
+  .point{border:1px solid var(--line); border-radius:14px; padding:26px}
+  .point .n{font-family:var(--mono); font-size:11px; color:var(--violet); letter-spacing:.14em}
+  .point h3{font-size:21px; font-weight:600; letter-spacing:-.02em; margin:14px 0 10px}
+  .point p{color:var(--dim); font-size:15px; line-height:1.55}
+
+  .loop-head{display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:14px}
+  .loop-head h2{font-size:clamp(28px,4vw,44px); font-weight:700; letter-spacing:-.03em}
+  .loop-lead{font-size:18px; color:var(--dim); margin-top:14px; max-width:28em}
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:48px; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:var(--line)}
+  .step{background:var(--bg); padding:30px 24px 34px}
+  .step .sn{font-family:var(--mono); font-size:30px; color:var(--violet); font-weight:700}
+  .step .sk{font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); margin:8px 0 16px}
+  .step h4{font-size:19px; font-weight:600; letter-spacing:-.015em; margin-bottom:10px}
+  .step p{color:var(--dim); font-size:15px; line-height:1.55}
+  .loop-note{margin-top:22px; font-family:var(--mono); font-size:13px; color:var(--faint); display:flex; align-items:center; gap:10px}
+  .loop-note .ring{width:15px; height:15px; border:1.5px solid var(--violet); border-top-color:transparent; border-radius:50%}
+
+  .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:end}
+  .contact h2{font-size:clamp(32px,5vw,58px); font-weight:700; letter-spacing:-.03em; line-height:1}
+  .contact p{color:var(--dim); font-size:17px; margin-top:22px; max-width:30em; line-height:1.6}
+  .mail{display:inline-flex; align-items:center; gap:12px; font-family:var(--mono); font-size:clamp(15px,2vw,20px); text-decoration:none; color:var(--text); border:1px solid var(--line); border-radius:50px; padding:16px 26px; transition:border-color .3s,background .3s}
+  .mail:hover{border-color:var(--violet); background:rgba(167,139,250,.07)}
+  .mail .dot{width:8px; height:8px; border-radius:50%; background:var(--violet)}
+
+  footer{border-top:1px solid var(--line); padding:34px 0 50px}
+  .foot{display:flex; align-items:center; gap:13px; font-family:var(--mono); font-size:12px; color:var(--faint); letter-spacing:.04em; flex-wrap:wrap}
+  .foot svg{width:20px; height:22px}
+
+  @media(max-width:860px){
+    .hero-grid,.contact-grid{grid-template-columns:1fr; gap:34px}
+    .scene{max-width:460px; order:-1}
+    .points{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr}
+    section{padding:64px 0}
+    .hero{padding:48px 0 30px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    #veil{display:none}
+    .reveal{opacity:1; transform:none}
+  }
+</style>
+</head>
+<body>
+<div id="veil"></div>
+
+<header>
+  <div class="wrap bar">
+    <div class="brand">
+      <svg viewBox="0 0 40 44" fill="none" aria-hidden="true">
+        <circle cx="20" cy="16" r="11" stroke="#e9e8ec" stroke-width="1.7"/>
+        <line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#e9e8ec" stroke-width="1.7" stroke-linecap="round"/>
+        <path d="M17.5 33.5 h5 l-1 3.5 h-3 Z" fill="#e9e8ec"/>
+        <path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#a78bfa"/>
+      </svg>
+      Inventionistas
+    </div>
+    <a class="barlink" href="#contact">Build with us</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" style="border-top:none">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow">AI for invention</div>
+        <h1>Building AI Inventors.</h1>
+        <p class="lede">How can we harness AI to drive humankind forward? What if AI was truly creative? How can we recombine the vast scientific literature and human expertise to create breakthroughs toward a healthier and more sustainable world?</p>
+      </div>
+
+      <div class="scene">
+        <svg viewBox="0 0 520 480" fill="none" aria-label="A dim climb up a low hill, then a leap arc across a gap to a higher peak.">
+          <!-- faint baseline -->
+          <line class="pl" x1="0" y1="430" x2="520" y2="430" stroke="var(--faint)" stroke-width="1" stroke-dasharray="2 7" opacity=".5"/>
+          <!-- near low hill -->
+          <path class="pl hill" d="M-10 430 Q 120 360 210 380 L 210 430 Z" fill="rgba(255,255,255,0.02)" stroke="var(--line)" stroke-width="1"/>
+          <!-- far higher peak -->
+          <path class="pl peak" d="M330 430 Q 430 170 470 160 Q 500 175 530 430 Z" fill="rgba(255,255,255,0.02)" stroke="var(--line)" stroke-width="1"/>
+          <!-- dotted climb up the near hill (dim) -->
+          <path id="climb" d="M40 430 Q 110 400 150 388 T 205 382" stroke="var(--dim)" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 9" fill="none" opacity=".7"/>
+          <circle id="climbDot" cx="205" cy="382" r="3.4" fill="var(--dim)"/>
+          <!-- the leap arc across the gap (violet, dashed) -->
+          <path id="leap" d="M207 380 C 280 250 360 210 462 168" stroke="var(--violet)" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="9 9" fill="none"/>
+          <!-- far peak sparkle -->
+          <g id="spark" transform="translate(462 158)">
+            <path d="M0 -17 L3.4 -3.4 L17 0 L3.4 3.4 L0 17 L-3.4 3.4 L-17 0 L-3.4 -3.4 Z" fill="var(--violet)"/>
+          </g>
+          <!-- labels -->
+          <text x="150" y="458" font-family="Space Mono" font-size="12" letter-spacing="2" fill="var(--faint)" text-anchor="middle">CLIMB</text>
+          <text x="462" y="130" font-family="Space Mono" font-size="12" letter-spacing="2" fill="var(--violet)" text-anchor="middle">LEAP</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="thesis">
+    <div class="wrap">
+      <div class="label reveal">The thesis</div>
+      <p class="thesis-lead reveal">AI research agents have become very good at improving what already exists: tuning parameters, polishing a known solution, climbing the nearest hill.</p>
+      <p class="thesis-body reveal">They rarely step back to question fundamental assumptions, missing the uncharted, counterintuitive paths that lead to vastly higher peaks. That is where breakthroughs come from. We are building <b>AI for invention</b>: systems that make bigger leaps to find novel solutions, tested on real industry problems.</p>
+
+      <div class="points">
+        <div class="point reveal">
+          <div class="n">01</div>
+          <h3>Big leaps, not only fine-tuning.</h3>
+          <p>Most AI agents polish an existing solution. We want new ways of looking at a problem.</p>
+        </div>
+        <div class="point reveal">
+          <div class="n">02</div>
+          <h3>Real problems, not toy problems.</h3>
+          <p>We test our work on problems that matter outside a benchmark.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="loop">
+    <div class="wrap">
+      <div class="loop-head">
+        <div>
+          <div class="label reveal">The autoresearch loop</div>
+          <h2 class="reveal">AI that runs the research loop by itself.</h2>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="sn">01</div>
+          <div class="sk">Propose / Generate ideas</div>
+          <h4>Propose hypotheses</h4>
+          <p>It proposes hypotheses, recombining insight from distant and unconnected fields.</p>
+        </div>
+        <div class="step reveal">
+          <div class="sn">02</div>
+          <div class="sk">Experiment / Run experiments</div>
+          <h4>Run experiments</h4>
+          <p>It designs and runs tests to put each idea under real pressure.</p>
+        </div>
+        <div class="step reveal">
+          <div class="sn">03</div>
+          <div class="sk">Verify / Check results</div>
+          <h4>Check results</h4>
+          <p>It keeps what holds, discards what fails, and starts the loop again.</p>
+        </div>
+      </div>
+      <div class="loop-note reveal"><span class="ring"></span> Then it repeats, on its own</div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap contact-grid">
+      <div>
+        <div class="label reveal">Contact</div>
+        <h2 class="reveal" style="margin-top:14px">Wanna build with us?</h2>
+        <p class="reveal">For researchers who want to collaborate, and for teams with hard, real problems that could be good test cases.</p>
+      </div>
+      <div class="reveal">
+        <a class="mail" href="mailto:founders@inventionistas.com"><span class="dot"></span>founders@inventionistas.com</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <svg viewBox="0 0 40 44" fill="none" aria-hidden="true">
+      <circle cx="20" cy="16" r="11" stroke="#8f8e99" stroke-width="1.7"/>
+      <line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#8f8e99" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M17.5 33.5 h5 l-1 3.5 h-3 Z" fill="#8f8e99"/>
+      <path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#a78bfa"/>
+    </svg>
+    <span>Inventionistas · Building AI Inventors. · inventionistas.com</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasGsap = typeof window.gsap !== 'undefined';
+  var hasST = typeof window.ScrollTrigger !== 'undefined';
+
+  // prep stroke draw helper
+  function prepPath(el){ var len = el.getTotalLength(); el.style.strokeDasharray = len; el.style.strokeDashoffset = len; return len; }
+
+  var climb = document.getElementById('climb');
+  var leap  = document.getElementById('leap');
+  var spark = document.getElementById('spark');
+  var climbDot = document.getElementById('climbDot');
+  var veil = document.getElementById('veil');
+
+  if(reduce || !hasGsap || !hasST){
+    // show final states, remove veil, keep reveals visible
+    if(veil) veil.style.display = 'none';
+    document.querySelectorAll('.reveal').forEach(function(n){ n.style.opacity=1; n.style.transform='none'; });
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // store original dash patterns, then set to full length for draw-in
+  var climbDash = climb.getAttribute('stroke-dasharray'); // dotted look
+  var leapDash  = leap.getAttribute('stroke-dasharray');  // dashed look
+
+  var climbLen = climb.getTotalLength();
+  var leapLen  = leap.getTotalLength();
+
+  // for the leap we animate a solid draw then restore dashes
+  gsap.set(leap, { strokeDasharray: leapLen, strokeDashoffset: leapLen });
+  gsap.set(climb, { opacity: 0 });
+  gsap.set(climbDot, { scale: 0, transformOrigin: 'center', opacity: 0 });
+  gsap.set(spark, { scale: 0, opacity: 0, transformOrigin: 'center' });
+
+  var tl = gsap.timeline({ delay: 0.25 });
+
+  // quiet intro: lift the veil
+  tl.to(veil, { opacity: 0, duration: 0.7, ease: 'power2.out', onComplete: function(){ veil.style.display='none'; } });
+
+  // hero copy rise
+  tl.from('.hero-copy > *', { y: 24, opacity: 0, duration: 0.8, stagger: 0.09, ease: 'power3.out' }, 0.1);
+
+  // climb draws in, dim and dotted
+  tl.to(climb, { opacity: 0.7, duration: 0.5, ease: 'power1.out' }, 0.45)
+    .from(climb, { strokeDashoffset: climbLen, duration: 0.9, ease: 'power1.inOut' }, '<');
+  tl.to(climbDot, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(2)' }, '-=0.2');
+
+  // the leap: spring-like power ease across the gap
+  tl.to(leap, { strokeDashoffset: 0, duration: 1.05, ease: 'power3.out' }, '+=0.1')
+    // restore the dashed look after the draw lands
+    .set(leap, { strokeDasharray: leapDash, strokeDashoffset: 0 });
+
+  // sparkle pop at the far peak
+  tl.to(spark, { scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(3)' }, '-=0.15')
+    .to(spark, { rotate: 90, duration: 6, repeat: -1, ease: 'none', transformOrigin:'center' }, '>-0.1');
+
+  // subtle parallax on scroll
+  gsap.to('.hill', { yPercent: 8, ease: 'none', scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:0.6 }});
+  gsap.to('.peak', { yPercent: -6, ease: 'none', scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:0.6 }});
+  gsap.to('#spark', { y: -18, ease: 'none', scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:0.6 }});
+
+  // staggered reveals per section
+  gsap.utils.toArray('section').forEach(function(sec){
+    var items = sec.querySelectorAll('.reveal');
+    if(!items.length) return;
+    gsap.to(items, {
+      opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out',
+      scrollTrigger: { trigger: sec, start: 'top 78%' }
+    });
+  });
+})();
+</script>
+</body>
+</html>

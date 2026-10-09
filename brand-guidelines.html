@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventionistas · Brand Guidelines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f5f2ec;
+    --card: #fbf9f4;
+    --ink: #16140f;
+    --dim: #655f54;
+    --faint: #a59e90;
+    --hairline: rgba(22, 20, 15, 0.13);
+    --violet: #6d4bf2;
+    --violet-light: #a78bfa;
+    --maxw: 940px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .num {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+  }
+
+  /* ===== Section framing ===== */
+  section {
+    padding: 72px 0;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 44px;
+  }
+
+  .sec-head .idx {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--violet);
+  }
+
+  .sec-head h2 {
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .sec-head .sub {
+    margin-left: auto;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  /* ===== Cover ===== */
+  .cover {
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 96px 0 80px;
+    border-top: none;
+  }
+
+  .cover .kicker {
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cover .kicker svg { width: 20px; height: 22px; display: block; }
+
+  .cover h1 {
+    font-size: clamp(48px, 13vw, 132px);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 0.92;
+    margin-bottom: 28px;
+  }
+
+  .cover .tag {
+    font-size: clamp(22px, 4vw, 34px);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    margin-bottom: 24px;
+  }
+
+  .cover .tag .spark { color: var(--violet); }
+
+  .cover .lede {
+    font-size: clamp(15px, 2vw, 18px);
+    color: var(--dim);
+    max-width: 560px;
+    line-height: 1.55;
+  }
+
+  .cover .foot {
+    margin-top: auto;
+    padding-top: 56px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* ===== Tiles ===== */
+  .grid {
+    display: grid;
+    gap: 20px;
+  }
+
+  .tile {
+    background: var(--card);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tile .cap {
+    margin-top: 24px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .tile .cap .t { font-weight: 500; font-size: 14px; }
+  .tile .cap .d { font-size: 12px; color: var(--faint); font-family: 'Space Mono', monospace; }
+
+  .tile-center {
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+  }
+
+  .logo-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stage {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    width: 100%;
+  }
+
+  /* Wordmark text logo */
+  .wordmark {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .lockup-h {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .lockup-h svg { width: 42px; height: 46px; display: block; }
+  .lockup-h .wordmark { font-size: 30px; }
+
+  .lockup-v {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .lockup-v svg { width: 54px; height: 60px; display: block; }
+  .lockup-v .wordmark { font-size: 26px; }
+
+  /* Clear space diagram */
+  .clearspace {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 44px;
+  }
+  .clearspace .guide {
+    position: absolute;
+    inset: 0;
+    border: 1px dashed var(--violet);
+    border-radius: 8px;
+    opacity: 0.5;
+  }
+  .clearspace .inner {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 44px;
+    border: 1px dashed var(--faint);
+    border-radius: 6px;
+  }
+  .clearspace .inner svg { width: 48px; height: 53px; display: block; }
+  .cs-note {
+    font-size: 12px;
+    color: var(--dim);
+    font-family: 'Space Mono', monospace;
+    text-align: center;
+    margin-top: 18px;
+    line-height: 1.5;
+  }
+
+  /* Do / Dont */
+  .dd-grid {
+    grid-template-columns: 1fr 1fr;
+    margin-top: 20px;
+  }
+  .dd {
+    background: var(--card);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .dd h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dd.do h3 { color: var(--violet); }
+  .dd.dont h3 { color: var(--dim); }
+  .dd ul { list-style: none; }
+  .dd li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 12px;
+    line-height: 1.45;
+  }
+  .dd li:last-child { margin-bottom: 0; }
+  .dd.do li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 8px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--violet);
+  }
+  .dd.dont li::before {
+    content: "";
+    position: absolute;
+    left: 2px; top: 10px;
+    width: 10px; height: 2px;
+    background: var(--faint);
+  }
+
+  /* ===== Colour ===== */
+  .sw-grid { grid-template-columns: repeat(3, 1fr); }
+  .swatch {
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--card);
+  }
+  .swatch .chip { height: 150px; }
+  .swatch .meta { padding: 20px 22px; }
+  .swatch .meta .nm { font-weight: 500; font-size: 15px; margin-bottom: 8px; }
+  .swatch .meta .row {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    margin-bottom: 3px;
+  }
+  .colour-rule {
+    margin-top: 28px;
+    background: var(--card);
+    border: 1px solid var(--hairline);
+    border-left: 3px solid var(--violet);
+    border-radius: 12px;
+    padding: 24px 28px;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .alt-note {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--dim);
+    font-family: 'Space Mono', monospace;
+  }
+  .alt-note b { color: var(--violet); }
+
+  /* ===== Typography ===== */
+  .type-spec {
+    background: var(--card);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .type-row {
+    padding: 28px 32px;
+    border-bottom: 1px solid var(--hairline);
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-row .spec {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--faint);
+    letter-spacing: 0.08em;
+    min-width: 170px;
+    flex-shrink: 0;
+  }
+  .type-row .sample { flex: 1; min-width: 200px; }
+  .ts-display { font-size: clamp(34px, 7vw, 56px); font-weight: 600; letter-spacing: -0.03em; line-height: 1; }
+  .ts-heading { font-size: clamp(24px, 4vw, 30px); font-weight: 600; letter-spacing: -0.015em; }
+  .ts-body { font-size: 17px; font-weight: 400; line-height: 1.6; }
+  .ts-mono { font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
+  .type-note {
+    margin-top: 24px;
+    font-size: 14px;
+    color: var(--dim);
+    line-height: 1.6;
+  }
+  .type-note b { color: var(--ink); font-weight: 500; }
+
+  /* ===== Motion ===== */
+  .motion-card {
+    background: var(--card);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 44px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .motion-card .spark-demo {
+    width: 72px; height: 72px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .motion-card .spark-demo svg {
+    width: 56px; height: 56px;
+    animation: sparkloop 2.6s cubic-bezier(.5,.1,.3,1) infinite;
+    transform-origin: center;
+  }
+  @keyframes sparkloop {
+    0%   { transform: scale(0.2) rotate(0deg) translateY(0); opacity: 0.3; }
+    30%  { transform: scale(1) rotate(180deg) translateY(0); opacity: 1; }
+    55%  { transform: scale(1) rotate(360deg) translateY(0); opacity: 1; }
+    70%  { transform: scale(1) rotate(360deg) translateY(-14px); opacity: 1; }
+    85%  { transform: scale(1) rotate(360deg) translateY(0); opacity: 1; }
+    100% { transform: scale(1) rotate(360deg) translateY(0); opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .motion-card .spark-demo svg { animation: none; }
+  }
+  .motion-card .mtext { flex: 1; min-width: 220px; }
+  .motion-card .mtext p { font-size: 17px; font-weight: 500; letter-spacing: -0.01em; }
+
+  /* ===== Voice ===== */
+  .voice-tag {
+    background: var(--card);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .voice-tag .big {
+    font-size: clamp(28px, 6vw, 44px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+  .voice-tag .big .spark { color: var(--violet); }
+  .voice-tag .tone {
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--dim);
+  }
+  .copy-grid { grid-template-columns: 1fr 1fr; }
+  .copy-ex {
+    background: var(--card);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .copy-ex .ex {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .copy-ex .ex:last-child { border-bottom: none; padding-bottom: 0; }
+  .copy-ex .ex:first-child { padding-top: 0; }
+  .copy-ex .tag-lbl {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .copy-ex.do .tag-lbl { color: var(--violet); }
+  .copy-ex.dont .tag-lbl { color: var(--faint); }
+  .copy-ex .ex p { font-size: 15px; line-height: 1.5; }
+  .copy-ex.dont .ex p { color: var(--dim); }
+  .hard-rule {
+    margin-top: 20px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 12px;
+    padding: 22px 28px;
+    font-size: 15px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hard-rule .lbl {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--violet-light);
+    flex-shrink: 0;
+  }
+
+  /* ===== Footer ===== */
+  footer {
+    border-top: 1px solid var(--hairline);
+    padding: 44px 0 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  footer .wordmark { font-size: 18px; }
+
+  @media (max-width: 720px) {
+    .wrap { padding: 0 20px; }
+    section { padding: 56px 0; }
+    .sec-head { flex-wrap: wrap; margin-bottom: 32px; }
+    .sec-head .sub { margin-left: 0; width: 100%; }
+    .logo-grid, .dd-grid, .sw-grid, .copy-grid { grid-template-columns: 1fr; }
+    .tile { padding: 28px; }
+    .type-row .spec { min-width: 100%; }
+    .cover { min-height: auto; padding: 72px 0 56px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ===== 1. COVER ===== -->
+  <header class="cover">
+    <div class="kicker">
+      <svg viewBox="0 0 40 44" fill="none" aria-hidden="true"><circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="2"/><line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><path d="M17.3 33.5 h5.4 l-1.1 3.6 h-3.2 Z" fill="#16140f"/><path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/></svg>
+      <span class="label">Inventionistas · brand guidelines</span>
+    </div>
+    <h1>Inventionistas</h1>
+    <p class="tag">Building AI <span class="spark">Inventors.</span></p>
+    <p class="lede">AI for invention. We build autoresearch systems that make bigger leaps to find novel solutions, tested on real industry problems.</p>
+    <div class="foot">
+      <span class="label">inventionistas.com</span>
+      <span class="label">v1.0 · spark bulb</span>
+    </div>
+  </header>
+
+  <!-- ===== 2. LOGO ===== -->
+  <section id="logo">
+    <div class="sec-head">
+      <span class="idx">01</span>
+      <h2>The Spark Bulb</h2>
+      <span class="sub">Logo system</span>
+    </div>
+
+    <div class="grid logo-grid">
+      <!-- Icon large -->
+      <div class="tile tile-center">
+        <div class="stage">
+          <svg viewBox="0 0 40 44" fill="none" style="width:96px;height:106px" aria-label="Spark Bulb icon"><circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="2"/><line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><path d="M17.3 33.5 h5.4 l-1.1 3.6 h-3.2 Z" fill="#16140f"/><path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/></svg>
+        </div>
+        <div class="cap"><span class="t">Icon</span><span class="d">the mark</span></div>
+      </div>
+
+      <!-- Horizontal lockup -->
+      <div class="tile tile-center">
+        <div class="stage">
+          <div class="lockup-h">
+            <svg viewBox="0 0 40 44" fill="none" aria-hidden="true"><circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="2"/><line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><path d="M17.3 33.5 h5.4 l-1.1 3.6 h-3.2 Z" fill="#16140f"/><path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/></svg>
+            <span class="wordmark">Inventionistas</span>
+          </div>
+        </div>
+        <div class="cap"><span class="t">Horizontal lockup</span><span class="d">icon + wordmark</span></div>
+      </div>
+
+      <!-- Stacked lockup -->
+      <div class="tile tile-center">
+        <div class="stage">
+          <div class="lockup-v">
+            <svg viewBox="0 0 40 44" fill="none" aria-hidden="true"><circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="2"/><line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><path d="M17.3 33.5 h5.4 l-1.1 3.6 h-3.2 Z" fill="#16140f"/><path d="M17.3 33.5 h5.4 l-1.1 3.6 h-3.2 Z" fill="#16140f"/><path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/></svg>
+            <span class="wordmark">Inventionistas</span>
+          </div>
+        </div>
+        <div class="cap"><span class="t">Stacked lockup</span><span class="d">icon over wordmark</span></div>
+      </div>
+
+      <!-- Wordmark (spark-i text logo) -->
+      <div class="tile tile-center">
+        <div class="stage">
+          <span class="wordmark" style="font-size:30px">Invent<span style="position:relative;display:inline-block">&#x0131;<svg style="position:absolute;left:50%;transform:translateX(-50%);top:-0.02em;width:0.46em;height:0.46em" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 0.6 L9.35 6.65 L15.4 8 L9.35 9.35 L8 15.4 L6.65 9.35 L0.6 8 L6.65 6.65 Z" fill="#6d4bf2"/></svg></span>onistas</span>
+        </div>
+        <div class="cap"><span class="t">Wordmark</span><span class="d">spark as the i</span></div>
+      </div>
+    </div>
+
+    <!-- Clear space + min size -->
+    <div class="grid logo-grid" style="margin-top:20px">
+      <div class="tile tile-center">
+        <div class="stage">
+          <div class="clearspace">
+            <span class="guide"></span>
+            <span class="inner">
+              <svg viewBox="0 0 40 44" fill="none" aria-hidden="true"><circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="2"/><line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><path d="M17.3 33.5 h5.4 l-1.1 3.6 h-3.2 Z" fill="#16140f"/><path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/></svg>
+            </span>
+          </div>
+        </div>
+        <p class="cs-note">Clear space equals the spark height on every side. Keep that padding clear of other elements.</p>
+      </div>
+      <div class="tile tile-center">
+        <div class="stage" style="flex-direction:column;gap:20px">
+          <svg viewBox="0 0 40 44" fill="none" style="width:22px;height:24px" aria-hidden="true"><circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="2"/><line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><path d="M17.3 33.5 h5.4 l-1.1 3.6 h-3.2 Z" fill="#16140f"/><path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/></svg>
+          <span class="label">24 px / 0.25 in minimum</span>
+        </div>
+        <p class="cs-note">Minimum size for the icon is 24 px on screen, 0.25 in in print. Below that the spark loses definition.</p>
+      </div>
+    </div>
+
+    <!-- Do / Dont -->
+    <div class="grid dd-grid">
+      <div class="dd do">
+        <h3>Do</h3>
+        <ul>
+          <li>Keep the spark centered in the bulb.</li>
+          <li>Keep one base line under the bulb.</li>
+          <li>Use the mark on paper or on ink.</li>
+          <li>Match the icon weight to the text.</li>
+        </ul>
+      </div>
+      <div class="dd dont">
+        <h3>Don't</h3>
+        <ul>
+          <li>Add a gradient to the spark.</li>
+          <li>Recolour the bulb.</li>
+          <li>Rotate or skew the mark.</li>
+          <li>Add glows or shadows.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 3. COLOUR ===== -->
+  <section id="colour">
+    <div class="sec-head">
+      <span class="idx">02</span>
+      <h2>Colour</h2>
+      <span class="sub">One brand colour</span>
+    </div>
+
+    <div class="grid sw-grid">
+      <div class="swatch">
+        <div class="chip" style="background:#6d4bf2"></div>
+        <div class="meta">
+          <div class="nm">Spark Violet</div>
+          <div class="row"><span>HEX</span><span>#6d4bf2</span></div>
+          <div class="row"><span>RGB</span><span>109 75 242</span></div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#16140f"></div>
+        <div class="meta">
+          <div class="nm">Ink</div>
+          <div class="row"><span>HEX</span><span>#16140f</span></div>
+          <div class="row"><span>RGB</span><span>22 20 15</span></div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="chip" style="background:#f5f2ec;border-bottom:1px solid var(--hairline)"></div>
+        <div class="meta">
+          <div class="nm">Paper</div>
+          <div class="row"><span>HEX</span><span>#f5f2ec</span></div>
+          <div class="row"><span>RGB</span><span>245 242 236</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="colour-rule">Colour only ever marks the spark, the idea. Everything else is ink on paper.</div>
+    <p class="alt-note">On dark backgrounds, lighten the spark to <b>#a78bfa</b> so it holds the same presence against ink.</p>
+  </section>
+
+  <!-- ===== 4. TYPOGRAPHY ===== -->
+  <section id="type">
+    <div class="sec-head">
+      <span class="idx">03</span>
+      <h2>Typography</h2>
+      <span class="sub">Space Grotesk + Space Mono</span>
+    </div>
+
+    <div class="type-spec">
+      <div class="type-row">
+        <span class="spec">DISPLAY · GROTESK 600 · 56</span>
+        <span class="sample ts-display">Bigger leaps</span>
+      </div>
+      <div class="type-row">
+        <span class="spec">HEADING · GROTESK 600 · 30</span>
+        <span class="sample ts-heading">Autoresearch systems</span>
+      </div>
+      <div class="type-row">
+        <span class="spec">BODY · GROTESK 400 · 17</span>
+        <span class="sample ts-body">We build AI that makes bigger leaps to find novel solutions, tested on real industry problems.</span>
+      </div>
+      <div class="type-row">
+        <span class="spec">LABEL · MONO 400 · 13</span>
+        <span class="sample ts-mono">Tested on real problems</span>
+      </div>
+    </div>
+
+    <p class="type-note"><b>Space Grotesk Semibold</b> carries the wordmark and every heading. <b>Space Mono</b> carries technical labels and numbers, the small print that reads like a lab readout.</p>
+  </section>
+
+  <!-- ===== 5. MOTION ===== -->
+  <section id="motion">
+    <div class="sec-head">
+      <span class="idx">04</span>
+      <h2>Motion</h2>
+      <span class="sub">The loader</span>
+    </div>
+
+    <div class="motion-card">
+      <div class="spark-demo">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 1 L13.8 8.2 L21 10 L13.8 11.8 L12 19 L10.2 11.8 L3 10 L10.2 8.2 Z" fill="#6d4bf2"/></svg>
+      </div>
+      <div class="mtext">
+        <p>The loader is the mark itself. The spark grows, spins, and jumps.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 6. VOICE ===== -->
+  <section id="voice">
+    <div class="sec-head">
+      <span class="idx">05</span>
+      <h2>Voice</h2>
+      <span class="sub">Plain, confident, no hype</span>
+    </div>
+
+    <div class="voice-tag">
+      <div class="big">Building AI <span class="spark">Inventors.</span></div>
+      <div class="tone">Plain, confident, no hype. We state what the systems do and let the work carry it.</div>
+    </div>
+
+    <div class="grid copy-grid">
+      <div class="copy-ex do">
+        <div class="ex">
+          <div class="tag-lbl">Do</div>
+          <p>We build autoresearch systems that find novel solutions.</p>
+        </div>
+        <div class="ex">
+          <div class="tag-lbl">Do</div>
+          <p>Tested on real industry problems, not toy benchmarks.</p>
+        </div>
+      </div>
+      <div class="copy-ex dont">
+        <div class="ex">
+          <div class="tag-lbl">Don't</div>
+          <p>Revolutionary, game-changing AI that will disrupt everything.</p>
+        </div>
+        <div class="ex">
+          <div class="tag-lbl">Don't</div>
+          <p>The world's smartest, most powerful invention engine ever made.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hard-rule">
+      <span class="lbl">Hard rule</span>
+      <span>Never use em dashes or en dashes. Use commas, periods, and colons.</span>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="lockup-h" style="gap:10px">
+      <svg viewBox="0 0 40 44" fill="none" style="width:26px;height:29px" aria-hidden="true"><circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="2"/><line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><path d="M17.3 33.5 h5.4 l-1.1 3.6 h-3.2 Z" fill="#16140f"/><path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/></svg>
+      <span class="wordmark">Inventionistas</span>
+    </div>
+    <span class="label">inventionistas.com · brand guidelines v1.0</span>
+  </footer>
+
+</div>
+</body>
+</html>

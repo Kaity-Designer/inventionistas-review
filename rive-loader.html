@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Spark Bulb Loader</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet" />
+<style>
+  :root { color-scheme: light; }
+  html, body { margin:0; height:100%; background:#F5F2EC; font-family:"Space Mono", ui-monospace, monospace; color:#16140F; }
+  .stage { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; }
+  canvas { width:240px; height:240px; display:block; }
+  .label { font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#8a8576; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <canvas id="spark" width="480" height="480"></canvas>
+    <div class="label">Spark Bulb loader, real Rive file</div>
+  </div>
+  <script src="https://unpkg.com/@rive-app/canvas@2"></script>
+  <script>
+    var RIV_B64 = "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";
+    function b64ToBytes(b64){ var bin=atob(b64), n=bin.length, a=new Uint8Array(n); for(var i=0;i<n;i++){a[i]=bin.charCodeAt(i);} return a; }
+    var r = new rive.Rive({
+      buffer: b64ToBytes(RIV_B64).buffer,
+      canvas: document.getElementById("spark"),
+      autoplay: true,
+      stateMachines: "loader",
+      onLoad: function(){ r.resizeDrawingSurfaceToCanvas(); }
+    });
+  </script>
+</body>
+</html>
