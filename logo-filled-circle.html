@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Inventionistas · Spark on a Disc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet" />
+<style>
+  :root{ --paper:#f5f2ec; --card:#fbf9f4; --ink:#16140f; --dim:#655f54; --faint:#a59e90; --line:rgba(22,20,15,0.13); --violet:#6d4bf2; }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:"Space Grotesk",system-ui,sans-serif; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px; margin:0 auto; padding:52px 28px 90px}
+  .head{border-bottom:1px solid var(--line); padding-bottom:22px; margin-bottom:10px}
+  .kicker{font-family:"Space Mono",monospace; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--violet)}
+  h1{font-size:clamp(24px,4vw,36px); font-weight:700; letter-spacing:-.03em; margin:14px 0 8px}
+  .head p{color:var(--dim); font-size:15px; margin:0; max-width:52em}
+  h2.sec{font-family:"Space Mono",monospace; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--faint); margin:42px 0 14px; font-weight:400}
+  .grid{display:grid; gap:14px; grid-template-columns:repeat(2,1fr)}
+  @media(max-width:520px){.grid{grid-template-columns:1fr}}
+  .tile{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:28px 20px 20px; display:flex; flex-direction:column; align-items:center}
+  .tile svg{height:130px; width:auto; display:block; margin-bottom:14px}
+  .lab{font-size:15px; font-weight:600; letter-spacing:-.01em}
+  .sub{font-family:"Space Mono",monospace; font-size:11px; color:var(--faint); margin-top:4px}
+  .note{color:var(--dim); font-size:14px; line-height:1.6; max-width:620px; margin-top:26px}
+  .note b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div class="kicker">Inventionistas · spark on a disc</div>
+    <h1>Classic bulb, spark on a filled circle</h1>
+    <p>The classic bulb you liked, with a filled circle behind the spark. A few ways to do it, at five and six points. The card colour fills the knockout so it reads as a real cut-out.</p>
+  </div>
+  <div id="out"></div>
+  <p class="note"><b>Tell me the treatment and point count</b> and I lock the full system to it. The knockout versions will be true transparency in the real files, so the spark shows whatever is behind it.</p>
+</div>
+
+<script>
+  var INK="#16140f", SPARK="#6d4bf2", CARD="#fbf9f4", LAV="#e4dbff";
+  var CLASSIC="M24 5 C32 5 38.5 11.3 38.5 19 C38.5 24.4 35.2 28 32.6 30.6 C31.6 31.6 31 32.8 31 34.2 L31 35.4 L17 35.4 L17 34.2 C17 32.8 16.4 31.6 15.4 30.6 C12.8 28 9.5 24.4 9.5 19 C9.5 11.3 16 5 24 5 Z";
+  function sparkle(cx,cy,pts,R,r){var n=pts*2,step=Math.PI/pts,d="";for(var i=0;i<n;i++){var rad=(i%2===0)?R:r,a=i*step;d+=(i===0?"M":"L")+(cx+rad*Math.sin(a)).toFixed(2)+" "+(cy-rad*Math.cos(a)).toFixed(2)+" ";}return d+"Z";}
+  function outline(){return '<path d="'+CLASSIC+'" fill="none" stroke="'+INK+'" stroke-width="2" stroke-linejoin="round"/>';}
+  function base(){return '<line x1="19" y1="39" x2="29" y2="39" stroke="'+INK+'" stroke-width="2" stroke-linecap="round"/>'
+    +'<line x1="21" y1="42" x2="27" y2="42" stroke="'+INK+'" stroke-width="2" stroke-linecap="round"/>'
+    +'<path d="M22.6 44.4 h2.8 l-0.6 2.8 h-1.6 Z" fill="'+INK+'"/>';}
+  function star(pts,R,fill){return '<path d="'+sparkle(24,19,pts,R,R*0.3)+'" fill="'+fill+'"/>';}
+
+  function discKnock(pts){ return outline()+base()+'<circle cx="24" cy="19" r="9" fill="'+SPARK+'"/>'+star(pts,6.4,CARD); }
+  function lavDisc(pts){ return outline()+base()+'<circle cx="24" cy="19" r="9" fill="'+LAV+'"/>'+star(pts,6.4,SPARK); }
+  function fullFill(pts){ return '<path d="'+CLASSIC+'" fill="'+SPARK+'"/>'+outline()+base()+star(pts,7,CARD); }
+
+  var sets=[
+    ["Violet disc, knockout spark","disc r9 / spark cut out", discKnock],
+    ["Lavender disc, violet spark","soft disc / spark on top", lavDisc],
+    ["Whole bulb filled, knockout spark","solid bulb / spark cut out", fullFill]
+  ];
+  var html="";
+  sets.forEach(function(s){
+    html+='<h2 class="sec">'+s[0]+'</h2><div class="grid">';
+    [5,6].forEach(function(p){
+      html+='<div class="tile"><svg viewBox="0 0 48 56" fill="none">'+s[2](p)+'</svg><div class="lab">'+p+'-point</div><div class="sub">'+s[1]+'</div></div>';
+    });
+    html+='</div>';
+  });
+  document.getElementById("out").innerHTML=html;
+</script>
+</body>
+</html>

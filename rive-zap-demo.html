@@ -1,0 +1,22 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Zap · rigged (bones + IK)</title>
+<style>
+  body{margin:0;background:#f4f1ea;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font:12px 'Space Mono',monospace;color:#655f54;gap:14px}
+  canvas{width:340px;height:442px}
+  .cap{letter-spacing:.14em;text-transform:uppercase}
+</style>
+<canvas id="zap" width="400" height="520"></canvas>
+<div class="cap">Zap — rebuilt as a rig: bones + IK legs, body squash, blink</div>
+<div id="log"></div>
+<script src="https://unpkg.com/@rive-app/canvas@2"></script>
+<script>
+  var log=document.getElementById('log');
+  new rive.Rive({
+    src:'assets/rive/zap-rig.riv', canvas:document.getElementById('zap'),
+    artboard:'zap', animations:'idle', autoplay:true,
+    layout:new rive.Layout({fit:'contain'}),
+    onLoad:function(){ log.textContent='loaded + playing'; this.resizeDrawingSurfaceToCanvas&&this.resizeDrawingSurfaceToCanvas(); },
+    onLoadError:function(e){ log.textContent='error: '+JSON.stringify(e); }
+  });
+</script>

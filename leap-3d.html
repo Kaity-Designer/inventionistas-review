@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Inventionistas Leap Landscape</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #f4f1ea;
+    --ink: #1c1a17;
+    --violet: #6d4bf2;
+    --coral: #fe8989;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Space Mono", ui-monospace, monospace;
+    overflow: hidden;
+  }
+  #stage {
+    position: fixed;
+    inset: 0;
+    background: var(--paper);
+  }
+  #stage canvas { display: block; }
+
+  /* Projected 3D marker labels */
+  .marker-label {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    font-family: "Space Mono", ui-monospace, monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    white-space: nowrap;
+    pointer-events: none;
+    padding: 3px 8px;
+    border: 1px solid rgba(28, 26, 23, 0.22);
+    border-radius: 999px;
+    background: rgba(244, 241, 234, 0.82);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  /* Bottom-left controls */
+  #ui {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    z-index: 5;
+  }
+  #autorotate {
+    font-family: "Space Mono", ui-monospace, monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: rgba(244, 241, 234, 0.9);
+    border: 1px solid rgba(28, 26, 23, 0.35);
+    border-radius: 999px;
+    padding: 9px 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  #autorotate:hover { border-color: rgba(28, 26, 23, 0.65); }
+  #autorotate .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--violet);
+    box-shadow: 0 0 0 0 rgba(109, 75, 242, 0.0);
+    transition: background 0.2s ease;
+  }
+  #autorotate[aria-pressed="false"] .dot { background: rgba(28, 26, 23, 0.28); }
+  #helper {
+    font-family: "Space Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: rgba(28, 26, 23, 0.6);
+    padding-left: 4px;
+  }
+
+  @media (max-width: 480px) {
+    #ui { left: 14px; bottom: 14px; }
+    #autorotate { font-size: 11px; padding: 8px 13px; }
+    #helper { font-size: 10px; }
+    .marker-label { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+  <div id="stage"></div>
+
+  <div id="ui">
+    <button id="autorotate" type="button" aria-pressed="true">
+      <span class="dot" aria-hidden="true"></span>
+      <span id="autorotate-text">Auto-rotate: on</span>
+    </button>
+    <div id="helper">Drag to rotate and tilt</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script>
+  (function () {
+    "use strict";
+
+    var stage = document.getElementById("stage");
+    var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // ---- Brand palette ----
+    var PAPER = 0xf4f1ea;
+    var INK = 0x1c1a17;
+    var VIOLET = new THREE.Color("#6d4bf2");
+    var LAVENDER = new THREE.Color("#c9b8ff");
+    var CORAL = new THREE.Color("#fe8989");
+
+    // ---- Renderer ----
+    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setClearColor(PAPER, 1);
+    stage.appendChild(renderer.domElement);
+
+    // ---- Scene + camera ----
+    var scene = new THREE.Scene();
+    scene.background = new THREE.Color(PAPER);
+
+    var camera = new THREE.PerspectiveCamera(45, 1, 0.1, 200);
+    camera.position.set(7.5, 6.2, 11.5);
+
+    // ---- Lights (soft, day) ----
+    scene.add(new THREE.AmbientLight(0xffffff, 0.72));
+    var dir = new THREE.DirectionalLight(0xffffff, 0.78);
+    dir.position.set(6, 12, 8);
+    scene.add(dir);
+    var fill = new THREE.DirectionalLight(0xffffff, 0.18);
+    fill.position.set(-8, 5, -6);
+    scene.add(fill);
+
+    // ---- Surface definition ----
+    var W = 12, D = 12;          // extents in x and z
+    var SEG = 120;               // subdivisions
+
+    // Two prominent gaussian peaks: a lower near one, a tall far one.
+    var peaks = [
+      { name: "climb", cx: -2.6, cz: 2.8, amp: 1.65, sigma: 1.9 }, // lower, near (toward camera, +z)
+      { name: "leap",  cx: 2.8,  cz: -2.9, amp: 3.65, sigma: 2.1 } // tallest, far (-z)
+    ];
+
+    function gaussian(x, z, p) {
+      var dx = x - p.cx, dz = z - p.cz;
+      return p.amp * Math.exp(-(dx * dx + dz * dz) / (2 * p.sigma * p.sigma));
+    }
+
+    function heightAt(x, z) {
+      var h = 0;
+      for (var i = 0; i < peaks.length; i++) h += gaussian(x, z, peaks[i]);
+      // gentle low-frequency rolling noise
+      h += 0.42 * Math.sin(x * 0.55 + 0.6) * Math.cos(z * 0.5 - 0.3);
+      h += 0.26 * Math.sin(x * 0.9 - z * 0.4 + 1.2);
+      h += 0.18 * Math.cos(z * 1.1 + x * 0.2);
+      return h;
+    }
+
+    // ---- Build geometry ----
+    var geo = new THREE.PlaneGeometry(W, D, SEG, SEG);
+    geo.rotateX(-Math.PI / 2); // lie flat in XZ, height along Y
+
+    var pos = geo.attributes.position;
+    var minH = Infinity, maxH = -Infinity;
+    var i;
+    for (i = 0; i < pos.count; i++) {
+      var x = pos.getX(i);
+      var z = pos.getZ(i);
+      var h = heightAt(x, z);
+      pos.setY(i, h);
+      if (h < minH) minH = h;
+      if (h > maxH) maxH = h;
+    }
+    pos.needsUpdate = true;
+    geo.computeVertexNormals();
+
+    // ---- Vertex colours by height: violet -> lavender -> coral ----
+    var colors = new Float32Array(pos.count * 3);
+    var tmp = new THREE.Color();
+    var range = (maxH - minH) || 1;
+    for (i = 0; i < pos.count; i++) {
+      var t = (pos.getY(i) - minH) / range;
+      if (t < 0.5) {
+        tmp.copy(VIOLET).lerp(LAVENDER, t / 0.5);
+      } else {
+        tmp.copy(LAVENDER).lerp(CORAL, (t - 0.5) / 0.5);
+      }
+      colors[i * 3] = tmp.r;
+      colors[i * 3 + 1] = tmp.g;
+      colors[i * 3 + 2] = tmp.b;
+    }
+    geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+
+    var surfaceMat = new THREE.MeshStandardMaterial({
+      vertexColors: true,
+      roughness: 0.74,
+      metalness: 0.02,
+      flatShading: false
+    });
+    var surface = new THREE.Mesh(geo, surfaceMat);
+    scene.add(surface);
+
+    // ---- Thin wireframe overlay for grid definition ----
+    var wireGeo = new THREE.WireframeGeometry(geo);
+    var wireMat = new THREE.LineBasicMaterial({
+      color: INK,
+      transparent: true,
+      opacity: 0.06
+    });
+    var wire = new THREE.LineSegments(wireGeo, wireMat);
+    surface.add(wire);
+
+    // ---- Markers: sphere + stem + projected label ----
+    var markers = [];
+    function addMarker(p, sphereColor, labelText) {
+      var hx = p.cx, hz = p.cz;
+      var hy = heightAt(hx, hz);
+      var group = new THREE.Group();
+
+      // stem from surface up to just under sphere
+      var stemH = 0.9;
+      var stemGeo = new THREE.CylinderGeometry(0.018, 0.018, stemH, 10);
+      var stemMat = new THREE.MeshStandardMaterial({
+        color: INK, transparent: true, opacity: 0.5, roughness: 0.9
+      });
+      var stem = new THREE.Mesh(stemGeo, stemMat);
+      stem.position.set(hx, hy + stemH / 2, hz);
+      group.add(stem);
+
+      // sphere sitting on top of the stem
+      var sphGeo = new THREE.SphereGeometry(0.14, 24, 24);
+      var sphMat = new THREE.MeshStandardMaterial({
+        color: sphereColor, roughness: 0.35, metalness: 0.05
+      });
+      var sph = new THREE.Mesh(sphGeo, sphMat);
+      sph.position.set(hx, hy + stemH + 0.12, hz);
+      group.add(sph);
+
+      scene.add(group);
+
+      // HTML label projected each frame (keeps Space Mono crisp, ink coloured)
+      var el = document.createElement("div");
+      el.className = "marker-label";
+      el.textContent = labelText;
+      stage.appendChild(el);
+
+      markers.push({
+        anchor: new THREE.Vector3(hx, hy + stemH + 0.36, hz),
+        el: el
+      });
+    }
+    addMarker(peaks[0], CORAL, "climb");   // lower near peak
+    addMarker(peaks[1], VIOLET, "leap");   // tallest far peak
+
+    // ---- OrbitControls ----
+    var controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 1.1, 0);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.enablePan = false;
+    controls.minDistance = 8;
+    controls.maxDistance = 26;
+    controls.minPolarAngle = 0.22;
+    controls.maxPolarAngle = Math.PI / 2 - 0.06; // stay above the horizon
+    controls.zoomSpeed = 0.7;
+    controls.rotateSpeed = 0.75;
+    controls.autoRotate = !prefersReduced;
+    controls.autoRotateSpeed = 0.6;
+    controls.update();
+
+    // ---- Auto-rotate toggle ----
+    var btn = document.getElementById("autorotate");
+    var btnText = document.getElementById("autorotate-text");
+    function syncBtn() {
+      var on = controls.autoRotate;
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+      btnText.textContent = "Auto-rotate: " + (on ? "on" : "off");
+    }
+    syncBtn();
+    btn.addEventListener("click", function () {
+      controls.autoRotate = !controls.autoRotate;
+      syncBtn();
+    });
+
+    // ---- Resize / framing ----
+    function resize() {
+      var w = stage.clientWidth || window.innerWidth;
+      var h = stage.clientHeight || window.innerHeight;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      // widen the view a touch on narrow screens so the landscape still fits
+      camera.fov = w < 560 ? 54 : 45;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    // ---- Label projection ----
+    var proj = new THREE.Vector3();
+    function updateLabels() {
+      var w = renderer.domElement.clientWidth;
+      var h = renderer.domElement.clientHeight;
+      for (var k = 0; k < markers.length; k++) {
+        var m = markers[k];
+        proj.copy(m.anchor).project(camera);
+        var behind = proj.z > 1;
+        if (behind) {
+          m.el.style.display = "none";
+          continue;
+        }
+        m.el.style.display = "block";
+        var sx = (proj.x * 0.5 + 0.5) * w;
+        var sy = (-proj.y * 0.5 + 0.5) * h;
+        m.el.style.left = sx + "px";
+        m.el.style.top = sy + "px";
+      }
+    }
+
+    // ---- Render loop (pause when tab hidden) ----
+    var rafId = null;
+    function frame() {
+      rafId = requestAnimationFrame(frame);
+      controls.update();
+      updateLabels();
+      renderer.render(scene, camera);
+    }
+    function start() { if (rafId === null) frame(); }
+    function stop() {
+      if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
+    }
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) stop(); else start();
+    });
+    start();
+
+    // ---- Cleanup on unload ----
+    window.addEventListener("beforeunload", function () {
+      stop();
+      controls.dispose();
+      geo.dispose();
+      wireGeo.dispose();
+      surfaceMat.dispose();
+      wireMat.dispose();
+      renderer.dispose();
+    });
+  })();
+  </script>
+</body>
+</html>

@@ -3,118 +3,466 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Inventionistas · Explore</title>
-<meta name="description" content="Inventionistas brand and website work in progress. Click any card to open it." />
+<title>Inventionistas · Building AI Inventors</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="favicon.svg" />
+<meta name="theme-color" content="#f4f1ea" />
+<meta property="og:title" content="Inventionistas · Building AI Inventors" />
+<meta property="og:description" content="Building AI Inventors. Autoresearch systems that make bigger leaps to find novel solutions, tested on real industry problems." />
+<meta property="og:type" content="website" />
+<meta name="description" content="Building AI Inventors. Inventionistas builds AI for invention: autoresearch systems that make bigger leaps to find novel solutions, tested on real industry problems." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<script type="importmap">
+{ "imports": {
+  "react": "https://esm.sh/react@18.3.1",
+  "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime",
+  "react/jsx-dev-runtime": "https://esm.sh/react@18.3.1/jsx-dev-runtime",
+  "react-dom": "https://esm.sh/react-dom@18.3.1",
+  "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
+  "three": "https://esm.sh/three@0.153.0",
+  "@react-three/fiber": "https://esm.sh/@react-three/fiber@8.13.0?external=react,react-dom,three",
+  "@shadergradient/react": "https://esm.sh/@shadergradient/react@2.0.9?external=react,react-dom,three,@react-three/fiber"
+}}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <style>
-  :root{ --paper:#f4f1ea; --card:#faf8f2; --ink:#16140f; --dim:#655f54; --faint:#a39d90;
-         --line:rgba(22,20,15,0.13); --line2:rgba(22,20,15,0.22); --violet:#6d4bf2; }
-  *{margin:0;box-sizing:border-box}
-  body{background:var(--paper); color:var(--ink); font-family:"Space Grotesk",system-ui,sans-serif; -webkit-font-smoothing:antialiased; line-height:1.6}
-  a:focus-visible{outline:2px solid var(--violet); outline-offset:3px; border-radius:6px}
-  .wrap{max-width:1060px; margin:0 auto; padding:54px 28px 90px}
-  .head{border-bottom:1px solid var(--line); padding-bottom:26px; margin-bottom:14px}
-  .brand{display:flex; align-items:center; gap:13px; font-weight:600; font-size:20px; letter-spacing:-.01em}
-  .brand svg{width:34px; height:38px}
-  .head h1{font-size:clamp(28px,4.6vw,42px); font-weight:700; letter-spacing:-.03em; margin:18px 0 8px; line-height:1}
-  .head p{color:var(--dim); font-size:16px; margin:0; max-width:50em}
-  h2.sec{font-family:"Space Mono",monospace; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--faint); margin:46px 0 16px; font-weight:400}
-  .grid{display:grid; gap:14px; grid-template-columns:repeat(3,1fr)}
-  @media(max-width:820px){.grid{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:540px){.grid{grid-template-columns:1fr}}
-  .card{display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:24px; text-decoration:none; color:inherit; transition:border-color .22s, transform .22s, box-shadow .22s}
-  .card:hover{border-color:var(--violet); transform:translateY(-3px); box-shadow:0 10px 30px rgba(22,20,15,.06)}
-  .card .tag{font-family:"Space Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--violet); margin-bottom:12px}
-  .card h3{font-size:19px; font-weight:600; letter-spacing:-.01em; margin:0 0 6px; display:flex; align-items:center; gap:8px}
-  .card p{color:var(--dim); font-size:14px; line-height:1.5; margin:0 0 16px; flex:1}
-  .card .go{font-family:"Space Mono",monospace; font-size:12.5px; color:var(--ink); display:inline-flex; align-items:center; gap:7px}
-  .card .go span{color:var(--violet); transition:transform .22s}
-  .card:hover .go span{transform:translate(3px,-3px)}
-  .big{grid-column:1 / -1; flex-direction:row; align-items:center; gap:26px; padding:30px}
-  @media(max-width:540px){.big{flex-direction:column; align-items:flex-start}}
-  .big .mk{flex:none}
-  .pill{font-family:"Space Mono",monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:#fff; background:var(--violet); padding:3px 9px; border-radius:40px}
-  .note{color:var(--dim); font-size:13px; margin-top:10px; font-family:"Space Mono",monospace; letter-spacing:.02em}
-  footer{margin-top:60px; border-top:1px solid var(--line); padding-top:22px; font-family:"Space Mono",monospace; font-size:12px; color:var(--faint); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px}
+  :root{
+    --paper:#f4f1ea; --card:#faf8f2; --ink:#16140f; --dim:#655f54; --faint:#a39d90;
+    --line:rgba(22,20,15,0.13); --line2:rgba(22,20,15,0.22); --violet:#6d4bf2;
+    --disp:'Space Grotesk',system-ui,sans-serif; --mono:'Space Mono',monospace;
+    color-scheme:light;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper); color:var(--ink); font-family:var(--disp); line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 30px}
+  a{color:inherit}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--violet)}
+  .label{font-family:var(--mono); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--faint)}
+
+  /* intro loader */
+  #loader{position:fixed; inset:0; z-index:100; background:var(--paper); display:flex; flex-direction:column; align-items:center; justify-content:center}
+  #loader svg{width:140px; height:154px; overflow:visible}
+  #lcap{margin-top:16px; font-family:var(--mono); font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:#8a8576; min-height:16px}
+  #lcap b{color:var(--violet); font-weight:700}
+
+  .grid-bg{position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.6;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px; mask-image:linear-gradient(180deg,transparent,#000 8%,#000 92%,transparent)}
+
+  header{position:sticky; top:0; z-index:40; background:transparent; border-bottom:1px solid transparent; transition:background .35s ease, border-color .35s ease, -webkit-backdrop-filter .35s ease, backdrop-filter .35s ease}
+  header.scrolled{background:rgba(244,241,234,.85); border-bottom:1px solid var(--line); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px)}
+  header .brand{color:#f4f1ea}
+  header.scrolled .brand{color:var(--ink)}
+  header .brand svg circle, header .brand svg line{stroke:#f4f1ea}
+  header .brand svg path[fill="#16140f"]{fill:#f4f1ea}
+  header.scrolled .brand svg circle, header.scrolled .brand svg line{stroke:var(--ink)}
+  header.scrolled .brand svg path[fill="#16140f"]{fill:var(--ink)}
+  header nav.links a{color:rgba(244,241,234,.80)}
+  header nav.links a:hover{color:#fff}
+  header.scrolled nav.links a{color:var(--dim)}
+  header.scrolled nav.links a:hover{color:var(--ink)}
+  .bar{display:flex; align-items:center; justify-content:space-between; height:66px}
+  .brand{display:flex; align-items:center; gap:13px; font-weight:600; font-size:18px; letter-spacing:-.01em}
+  .brand svg{width:36px; height:40px; display:block}
+  .brand .wm{display:inline-block; font-weight:600}
+  .brand .sdi{position:relative; display:inline-block}
+  .brand .sdi .tt{position:absolute; left:50%; transform:translateX(-50%); top:-0.04em; width:0.46em; height:0.46em}
+  nav.links{display:flex; gap:24px}
+  nav.links a{font-family:var(--mono); font-size:12.5px; color:var(--dim); text-decoration:none; transition:color .25s}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--violet); outline-offset:3px; border-radius:2px}
+  .skip{position:absolute; left:-9999px; top:0; z-index:200; background:var(--ink); color:var(--paper); padding:10px 16px; border-radius:0 0 8px 0; font-family:var(--mono); font-size:13px}
+  .skip:focus{left:0}
+  nav.links a:hover{color:var(--ink)}
+  @media(max-width:620px){ nav.links{display:none} }
+
+  .hero{position:relative; z-index:1; min-height:100vh; margin-top:-66px; padding-top:66px; display:flex; align-items:center; overflow:hidden}
+  #sg-root{position:absolute; inset:0; z-index:0; opacity:0; transition:opacity 1.2s ease; pointer-events:none}
+  #sg-root.in{opacity:1}
+  #hero-ov{position:absolute; inset:0; z-index:1; pointer-events:none; -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px); background:rgba(16,13,24,0.40)}
+  #hero-scrim{position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(100deg, rgba(14,11,20,0.80) 0%, rgba(14,11,20,0.42) 44%, rgba(14,11,20,0) 72%)}
+  .hero .wrap{position:relative; z-index:2}
+  /* hero sits on the ShaderGradient (dark), so hero text and mark go light */
+  .hero{background:#120f1a}
+  .hero .hero-tag{color:#cfc9df; border-bottom-color:rgba(255,255,255,0.22)}
+  .hero .hero-tag .r{color:#c9b8ff}
+  .hero h1{color:#f6f3ee}
+  .hero h1 .violet{color:#b49cff}
+  .hero .lede{color:#e2dde9}
+  .hero .scrollcue{color:#b9b3c9}
+  .hero .mark circle, .hero .mark line{stroke:#f4f1ea}
+  .hero .mark path{fill:#f4f1ea}
+  .hero .mark #heroSpark{fill:#b49cff}
+  .hero-tag{display:flex; justify-content:space-between; font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); border-bottom:1px solid var(--line2); padding-bottom:14px; margin-bottom:40px}
+  .hero-tag .r{color:var(--violet)}
+  .hero .mark{width:58px; height:64px; display:block; margin-bottom:22px}
+  h1{font-weight:700; font-size:clamp(50px,11vw,146px); line-height:.9; letter-spacing:-.04em}
+  h1 .word{display:inline-block; will-change:transform}
+  h1 .violet{color:var(--violet)}
+  .lede{font-size:clamp(17px,2.1vw,22px); line-height:1.5; color:#3b372f; max-width:600px; margin-top:32px; font-weight:500}
+  .scrollcue{position:absolute; right:30px; bottom:26px; z-index:2; font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim)}
+
+  section{position:relative; z-index:1; padding:106px 0; border-top:1px solid var(--line); background:var(--paper)}
+  .sec-head{display:flex; gap:18px; align-items:baseline; margin-bottom:30px}
+  .sec-head .num{font-family:var(--mono); font-size:12px; color:var(--violet); letter-spacing:.1em}
+  .reveal{opacity:0; transform:translateY(22px)}
+  .no-enh .reveal{opacity:1; transform:none}
+  .thesis-lead{font-size:clamp(23px,3.6vw,40px); font-weight:500; letter-spacing:-.025em; line-height:1.18; max-width:17em; margin-bottom:22px}
+  .thesis-lead .violet{color:var(--violet)}
+  .thesis-body{font-size:17.5px; color:var(--dim); max-width:40em; line-height:1.62}
+  .thesis-body b{color:var(--ink); font-weight:600}
+
+  .points{display:grid; grid-template-columns:1fr 1fr; margin-top:58px; border-top:1px solid var(--line)}
+  .point{padding:30px 30px 10px 0}
+  .point:nth-child(2){padding-left:30px; border-left:1px solid var(--line)}
+  .point .n{font-family:var(--mono); font-size:12px; color:var(--violet)}
+  .point h3{font-size:clamp(20px,2.4vw,26px); font-weight:600; letter-spacing:-.02em; margin:14px 0 10px}
+  .point p{color:var(--dim); font-size:15.5px; line-height:1.55; max-width:26em}
+
+  .loop-lead{font-size:clamp(22px,3.3vw,36px); font-weight:500; letter-spacing:-.02em}
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); margin-top:54px; border-top:1px solid var(--line)}
+  .step{padding:34px 26px 24px 0}
+  .step + .step{padding-left:26px; border-left:1px solid var(--line)}
+  .step .sn{font-family:var(--mono); font-size:32px; font-weight:700; color:var(--violet); line-height:1}
+  .step .sk{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); margin:12px 0 15px}
+  .step h4{font-size:19px; font-weight:600; letter-spacing:-.015em; margin-bottom:9px}
+  .step p{color:var(--dim); font-size:15px; line-height:1.55}
+  .loop-note{margin-top:26px; font-family:var(--mono); font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); display:inline-flex; align-items:center; gap:11px}
+  .loop-note svg{width:15px;height:15px}
+
+  .contact-card{position:relative; overflow:hidden; background:var(--card); border:1px solid var(--line); border-radius:30px; padding:clamp(30px,4vw,60px); box-shadow:0 34px 70px -34px rgba(22,20,15,.22)}
+  .contact-card::before{content:""; position:absolute; left:0; right:0; top:0; height:4px; background:linear-gradient(90deg,#6d4bf2,#a78bfa,#fe8989)}
+  .contact-l .label{margin-bottom:20px}
+  .contact{display:grid; grid-template-columns:1.05fr 1fr; gap:clamp(32px,4vw,56px); align-items:start}
+  .contact-h{font-size:clamp(34px,6vw,66px); font-weight:700; letter-spacing:-.035em; line-height:.98}
+  .contact-p{color:var(--dim); font-size:17.5px; margin-top:22px; max-width:28em; line-height:1.6}
+  .mail{display:inline-flex; align-items:center; gap:13px; font-family:var(--mono); font-size:clamp(14px,1.8vw,18px); text-decoration:none; color:var(--ink); border:1px solid var(--line2); border-radius:52px; padding:17px 26px; transition:border-color .3s,background .3s,transform .3s; background:var(--card)}
+  .mail:hover{border-color:var(--violet); background:#fff; transform:translateY(-2px)}
+  .mail .dot{width:8px;height:8px;border-radius:50%;background:var(--violet)}
+
+  footer{position:relative; z-index:1; border-top:1px solid var(--line); padding:32px 0 56px; background:var(--paper)}
+  .foot{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; font-family:var(--mono); font-size:12px; color:var(--faint); letter-spacing:.03em}
+  .foot a{text-decoration:none}
+
+  /* contact form */
+  .contact-alt{color:var(--dim); font-size:14.5px; margin-top:18px}
+  .contact-alt a{color:var(--violet); text-decoration:none; border-bottom:1px solid transparent; transition:border-color .2s}
+  .contact-alt a:hover{border-color:var(--violet)}
+  .cform{display:flex; flex-direction:column; gap:16px}
+  .cform label{display:flex; flex-direction:column; gap:7px; font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--faint)}
+  .cform input,.cform textarea{font-family:var(--disp); font-size:16px; color:var(--ink); background:var(--card); border:1px solid var(--line2); border-radius:12px; padding:13px 15px; transition:border-color .2s,box-shadow .2s; resize:vertical; width:100%}
+  .cform input:focus,.cform textarea:focus{outline:none; border-color:var(--violet); box-shadow:0 0 0 3px rgba(109,75,242,0.14)}
+  #csubmit{align-self:flex-start; display:inline-flex; align-items:center; gap:10px; font-family:var(--mono); font-size:14px; color:#fff; background:var(--ink); border:1px solid var(--ink); border-radius:50px; padding:14px 26px; cursor:pointer; transition:background .25s,transform .25s,border-color .25s}
+  #csubmit span{transition:transform .25s}
+  #csubmit:hover{background:var(--violet); border-color:var(--violet); transform:translateY(-2px)}
+  #csubmit:hover span{transform:translate(3px,-3px)}
+  #csubmit:disabled{opacity:.6; cursor:default; transform:none}
+  .cstatus{font-family:var(--mono); font-size:12.5px; color:var(--dim); min-height:16px; margin:2px 0 0}
+  .cstatus.ok{color:var(--violet)} .cstatus.err{color:#b4452f}
+  .cstatus a{color:var(--violet)}
+  /* hover: nav underline draw */
+  nav.links a{position:relative}
+  nav.links a::after{content:""; position:absolute; left:0; right:100%; bottom:-4px; height:1px; background:var(--violet); transition:right .28s cubic-bezier(.22,1,.36,1)}
+  nav.links a:hover::after{right:0}
+
+  /* mascots (the crew) */
+  .bob{display:inline-block}
+  .step{position:relative}
+  .step .mascot{height:74px; width:auto; display:block; margin:0 0 16px; filter:drop-shadow(0 7px 11px rgba(22,20,15,.14)); transition:transform .35s cubic-bezier(.22,1,.36,1); will-change:transform}
+  .step:hover .mascot{transform:translateY(-6px) rotate(-4deg) scale(1.06)}
+
+  .crew{display:grid; grid-template-columns:repeat(5,1fr); gap:28px; margin-top:24px}
+  .crew .mem{display:flex; flex-direction:column; align-items:center; text-align:center; gap:11px}
+  .crew .mem .bob{min-height:208px; display:flex; align-items:flex-end}
+  .crew canvas{height:200px; width:auto; display:block; cursor:pointer; filter:drop-shadow(0 11px 18px rgba(22,20,15,.17)); will-change:transform}
+  .crew .nm{font-weight:600; font-size:15.5px; letter-spacing:-.012em}
+  .crew .rl{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
+  .crew-lead{font-size:clamp(22px,3.3vw,36px); font-weight:500; letter-spacing:-.02em; margin-bottom:46px}
+  @media(prefers-reduced-motion:reduce){ .bob{animation:none} }
+
+  @media(max-width:760px){
+    .crew{grid-template-columns:repeat(2,1fr); gap:30px 18px}
+    .crew .mem:last-child{grid-column:1 / -1}
+    .step .mascot{height:64px}
+    .points,.steps,.contact{grid-template-columns:1fr}
+    .point:nth-child(2){padding-left:0; border-left:none; border-top:1px solid var(--line)}
+    .step + .step{padding-left:0; border-left:none; border-top:1px solid var(--line)}
+    section{padding:72px 0}
+  }
+  @media(prefers-reduced-motion:reduce){ html{scroll-behavior:auto} .reveal{opacity:1!important; transform:none!important} #loader{display:none} }
 </style>
 </head>
 <body>
-<main class="wrap">
-  <div class="head">
+
+<!-- INTRO LOADER -->
+<a class="skip" href="#thesis">Skip to content</a>
+<div id="loader" aria-hidden="true">
+  <svg viewBox="0 0 40 44" fill="none" aria-label="Loading Inventionistas">
+    <g id="lmark">
+      <g id="lbulb">
+        <circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="1.9"/>
+        <line x1="15" y1="29" x2="25" y2="29" stroke="#16140f" stroke-width="1.9" stroke-linecap="round"/>
+        <line x1="16.75" y1="31" x2="23.25" y2="31" stroke="#16140f" stroke-width="1.9" stroke-linecap="round"/>
+        <line x1="18.25" y1="33" x2="21.75" y2="33" stroke="#16140f" stroke-width="1.9" stroke-linecap="round"/>
+      </g>
+      <path id="lsparkle" d="M20.00 9.00 L21.53 13.90 L26.66 13.84 L22.47 16.80 L24.11 21.66 L20.00 18.60 L15.89 21.66 L17.53 16.80 L13.34 13.84 L18.47 13.90 Z" fill="#6d4bf2"/>
+    </g>
+  </svg>
+  <div id="lcap">&nbsp;</div>
+</div>
+
+<div class="grid-bg"></div>
+
+<header>
+  <div class="wrap bar">
     <div class="brand">
-      <svg viewBox="0 0 40 44" fill="none" aria-hidden="true"><circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="2"/><line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><path d="M17.3 33.5 h5.4 l-1.1 3.6 h-3.2 Z" fill="#16140f"/><path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/></svg>
+      <svg viewBox="0 0 40 44" fill="none" aria-hidden="true"><circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="2"/><line x1="15" y1="29" x2="25" y2="29" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><line x1="16.75" y1="31" x2="23.25" y2="31" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><line x1="18.25" y1="33" x2="21.75" y2="33" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><path d="M20.00 9.00 L21.53 13.90 L26.66 13.84 L22.47 16.80 L24.11 21.66 L20.00 18.60 L15.89 21.66 L17.53 16.80 L13.34 13.84 L18.47 13.90 Z" fill="#6d4bf2"/></svg>
       Inventionistas
     </div>
-    <h1>Explore the work</h1>
-    <p>Everything in one place. Click any card to open it. The site and loaders are day mode. The gradient and the loader animations run live when opened in a normal browser or the deployed site.</p>
+    <nav class="links" aria-label="Primary"><a href="#thesis">Thesis</a><a href="#loop">Autoresearch</a><a href="#crew">Crew</a><a href="#contact">Contact</a></nav>
   </div>
+</header>
 
-  <h2 class="sec">The website</h2>
-  <div class="grid">
-    <a class="card big" href="06-day.html" target="_blank" rel="noopener">
-      <span class="mk"><svg width="64" height="70" viewBox="0 0 40 44" fill="none"><circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="1.9"/><line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#16140f" stroke-width="1.9" stroke-linecap="round"/><path d="M17.4 33.5 h5.2 l-1.1 3.6 h-3 Z" fill="#16140f"/><path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/></svg></span>
-      <span style="flex:1">
-        <span class="tag">The direction <span class="pill" style="margin-left:6px">Day mode</span></span>
-        <h3>Inventionistas, one page</h3>
-        <p>Loader intro, falling headline over a ShaderGradient, thesis, the autoresearch loop, and a working contact form. Light, accessible, no dark mode.</p>
-        <span class="go">Open the site <span>&#8599;</span></span>
-      </span>
-    </a>
-  </div>
+<main>
+  <section class="hero" aria-label="Introduction">
+    <div id="sg-root" aria-hidden="true"></div>
+    <div id="hero-ov" aria-hidden="true"></div>
+    <div id="hero-scrim" aria-hidden="true"></div>
+    <div class="wrap">
+      <h1 id="headline" aria-label="Building AI Inventors.">Building <span class="violet">AI</span> Inventors.</h1>
+      <p class="lede" data-hero>How can we harness AI to drive humankind forward? What if AI was truly creative? Systems that recombine the vast scientific literature and human expertise to create breakthroughs.</p>
+    </div>
+  </section>
 
-  <h2 class="sec">Brand &amp; logo</h2>
-  <div class="grid">
-    <a class="card" href="logo-handoff.html" target="_blank" rel="noopener">
-      <span class="tag">Logo</span><h3>Logo directions</h3>
-      <p>Spark Bulb (recommended), Dot i, and three Sparkle Brain takes.</p>
-      <span class="go">Open <span>&#8599;</span></span>
-    </a>
-    <a class="card" href="brand-guidelines.html" target="_blank" rel="noopener">
-      <span class="tag">Brand</span><h3>Brand guidelines</h3>
-      <p>Logo system, clear space, colour, type, voice. Day mode, ready to hand over.</p>
-      <span class="go">Open <span>&#8599;</span></span>
-    </a>
-    <a class="card" href="logo-system.html" target="_blank" rel="noopener">
-      <span class="tag">Logo</span><h3>Logo system</h3>
-      <p>Icon, favicon sizes, lockups, wordmark, and colour.</p>
-      <span class="go">Open <span>&#8599;</span></span>
-    </a>
-  </div>
+  <section id="thesis" aria-label="Thesis">
+    <div class="wrap">
+      <div class="sec-head"><span class="label">The thesis</span></div>
+      <p class="thesis-lead reveal">AI research agents are very good at improving what already exists: tuning parameters, polishing a known solution, <span class="violet">climbing the nearest hill.</span></p>
+      <p class="thesis-body reveal">They rarely step back to question fundamental assumptions, missing the uncharted, counterintuitive paths that lead to vastly higher peaks. That is where breakthroughs come from. We are building <b>AI for invention</b>: systems that make bigger leaps to find novel solutions, tested on real industry problems.</p>
+      <div class="points">
+        <div class="point reveal"><div class="n">01</div><h3>Big leaps, not only fine-tuning.</h3><p>Most AI agents polish an existing solution. We want new ways of looking at a problem.</p></div>
+        <div class="point reveal"><div class="n">02</div><h3>Real problems, not toy problems.</h3><p>We test our work on problems that matter outside a benchmark.</p></div>
+      </div>
+    </div>
+  </section>
 
-  <h2 class="sec">Loaders</h2>
-  <div class="grid">
-    <a class="card" href="loader-light.html" target="_blank" rel="noopener">
-      <span class="tag">Day mode</span><h3>Loader, light</h3>
-      <p>The spark grows 0 to 100, spins, and jumps. Press Replay.</p>
-      <span class="go">Open <span>&#8599;</span></span>
-    </a>
-    <a class="card" href="rive-loader.html" target="_blank" rel="noopener">
-      <span class="tag">Rive</span><h3>Loader, real .riv</h3>
-      <p>The same motion built as a true Rive file on the mark.</p>
-      <span class="go">Open <span>&#8599;</span></span>
-    </a>
-    <a class="card" href="loader.html" target="_blank" rel="noopener">
-      <span class="tag">Dark</span><h3>Loader, dark</h3>
-      <p>The dark version, for reference.</p>
-      <span class="go">Open <span>&#8599;</span></span>
-    </a>
-  </div>
+  <section id="loop" aria-label="The autoresearch loop">
+    <div class="wrap">
+      <div class="sec-head"><span class="label">The autoresearch loop</span></div>
+      <p class="loop-lead reveal">AI that runs the research loop by itself.</p>
+      <div class="steps">
+        <div class="step reveal"><span class="bob"><canvas class="mascot rivec" data-char="brainy" style="aspect-ratio:460/640" role="img" aria-label="Brainy, the idea brain"></canvas></span><div class="sn">01</div><div class="sk">Propose</div><h4>Generate ideas</h4><p>It proposes hypotheses, recombining insight from distant and unconnected fields.</p></div>
+        <div class="step reveal"><span class="bob"><canvas class="mascot rivec" data-char="sparky" style="aspect-ratio:460/680" role="img" aria-label="Sparky the Robot"></canvas></span><div class="sn">02</div><div class="sk">Experiment</div><h4>Run experiments</h4><p>It designs and runs tests to put each idea under real pressure.</p></div>
+        <div class="step reveal"><span class="bob"><canvas class="mascot rivec" data-char="gritty" style="aspect-ratio:440/540" role="img" aria-label="Gritty Gear"></canvas></span><div class="sn">03</div><div class="sk">Verify</div><h4>Check results</h4><p>It keeps what holds, discards what fails, and starts the loop again.</p></div>
+      </div>
+      <p class="loop-note reveal"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.46-3.54" stroke="#6d4bf2" stroke-width="1.5" stroke-linecap="round"/><path d="M11 1.5 L11.5 4.5 L8.5 4.2" stroke="#6d4bf2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Then it repeats, on its own</p>
+    </div>
+  </section>
 
-  <h2 class="sec">More directions</h2>
-  <div class="grid">
-    <a class="card" href="02-field-notes.html" target="_blank" rel="noopener"><span class="tag">Day mode</span><h3>Field Notes</h3><p>Editorial, serif headlines, numbered sections.</p><span class="go">Open <span>&#8599;</span></span></a>
-    <a class="card" href="05-wow.html" target="_blank" rel="noopener"><span class="tag">Day mode</span><h3>Wow</h3><p>Falling headline, bold type.</p><span class="go">Open <span>&#8599;</span></span></a>
-    <a class="card" href="03-leap.html" target="_blank" rel="noopener"><span class="tag">Day mode</span><h3>Leap</h3><p>Kinetic leap-not-climb hero.</p><span class="go">Open <span>&#8599;</span></span></a>
-    <a class="card" href="04-connections.html" target="_blank" rel="noopener"><span class="tag">Day mode</span><h3>Connections</h3><p>Living node network of distant fields.</p><span class="go">Open <span>&#8599;</span></span></a>
-    <a class="card" href="logos.html" target="_blank" rel="noopener"><span class="tag">Logo</span><h3>Logo concepts v2</h3><p>All six marks on one board.</p><span class="go">Open <span>&#8599;</span></span></a>
-  </div>
+  <section id="crew" aria-label="The crew">
+    <div class="wrap">
+      <div class="sec-head"><span class="label">The crew</span></div>
+      <div class="crew">
+        <div class="mem reveal"><span class="bob"><canvas class="rivec" data-char="sparky" style="aspect-ratio:460/680" role="img" aria-label="Sparky the Robot"></canvas></span><span class="nm">Sparky</span><span class="rl">builds the rigs</span></div>
+        <div class="mem reveal"><span class="bob"><canvas class="rivec" data-char="gritty" style="aspect-ratio:440/540" role="img" aria-label="Gritty Gear"></canvas></span><span class="nm">Gritty</span><span class="rl">keeps it turning</span></div>
+        <div class="mem reveal"><span class="bob"><canvas class="rivec" data-char="brainy" style="aspect-ratio:460/640" role="img" aria-label="Brainy"></canvas></span><span class="nm">Brainy</span><span class="rl">has the ideas</span></div>
+        <div class="mem reveal"><span class="bob"><canvas class="rivec" data-char="zap" style="aspect-ratio:440/700" role="img" aria-label="Zap"></canvas></span><span class="nm">Zap</span><span class="rl">bright sparks</span></div>
+        <div class="mem reveal"><span class="bob"><canvas class="rivec" data-char="tinker" style="aspect-ratio:460/780" role="img" aria-label="Tinker"></canvas></span><span class="nm">Tinker</span><span class="rl">tunes it all</span></div>
+      </div>
+    </div>
+  </section>
 
-  <footer>
-    <span>Inventionistas · work in progress</span>
-    <span>Building AI Inventors.</span>
-  </footer>
+  <section id="contact" aria-label="Get in touch">
+    <div class="wrap">
+      <div class="contact-card reveal">
+        <div class="contact">
+          <div class="contact-l">
+            <div class="label">Get in touch</div>
+            <h2 class="contact-h">Wanna build with us?</h2>
+            <p class="contact-p">For researchers who want to collaborate, and for teams with hard, real problems that could be good test cases.</p>
+            <p class="contact-alt">Prefer email? Reach us at <a href="mailto:founders@inventionistas.com">founders@inventionistas.com</a></p>
+          </div>
+          <form class="cform" id="cform" novalidate aria-label="Contact form">
+            <label>Name<input type="text" name="name" required autocomplete="name" /></label>
+            <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+            <label>What are you working on?<textarea name="message" rows="4" required></textarea></label>
+            <button type="submit" id="csubmit">Send <span aria-hidden="true">&#8594;</span></button>
+            <p class="cstatus" id="cstatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer>
+  <div class="wrap foot"><span>Inventionistas</span><span>Building AI Inventors.</span><a href="mailto:founders@inventionistas.com">inventionistas.com</a></div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasGsap = typeof window.gsap !== 'undefined';
+  var loaderEl = document.getElementById('loader');
+  var h1=document.getElementById('headline');
+
+  function splitWords(node){
+    var out=[];
+    Array.prototype.slice.call(node.childNodes).forEach(function(n){
+      if(n.nodeType===3){ n.textContent.split(/(\s+)/).forEach(function(tok){
+        if(tok.trim()===''){out.push(document.createTextNode(tok));}
+        else{var s=document.createElement('span');s.className='word';s.textContent=tok;out.push(s);} }); }
+      else { n.classList.add('word'); out.push(n); }
+    });
+    node.innerHTML=''; out.forEach(function(x){node.appendChild(x);});
+    return node.querySelectorAll('.word');
+  }
+
+  function setupReveals(){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){ if(e.isIntersecting){ gsap.to(e.target,{opacity:1,y:0,duration:0.75,ease:'power3.out'}); io.unobserve(e.target);} });},{threshold:0.16,rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){ gsap.set(el,{opacity:0,y:22}); io.observe(el); });
+  }
+
+  function heroReveal(){
+    var words=splitWords(h1);
+    gsap.set('[data-hero]',{opacity:0,y:16});
+    gsap.set('#heroSpark',{transformOrigin:'20px 16px',scale:0,opacity:0});
+    gsap.set(words,{yPercent:-130,opacity:0,rotation:function(){return gsap.utils.random(-7,7);}});
+    var tl=gsap.timeline();
+    tl.to('.mark[data-hero]',{opacity:1,y:0,duration:0.6,ease:'power2.out'},0)
+      .to('#heroSpark',{scale:1,opacity:1,duration:0.5,ease:'back.out(3)'},0.2)
+      .to(words,{yPercent:0,opacity:1,rotation:0,duration:1.05,ease:'bounce.out',stagger:0.1},0.15)
+      .to('.lede[data-hero]',{opacity:1,y:0,duration:0.7,ease:'power2.out'},0.75);
+  }
+
+  if(reduce || !hasGsap){
+    document.body.classList.add('no-enh');
+    if(loaderEl) loaderEl.style.display='none';
+    if(hasGsap) setupReveals();
+    return;
+  }
+
+  setupReveals();
+
+  // intro loader: grow, spin, jump, then hand off to the hero
+  var lcap=document.getElementById('lcap');
+  function lpct(v){ lcap.innerHTML="<b>"+Math.round(v)+"</b>%"; }
+  gsap.set('#lbulb',{opacity:0,transformOrigin:'20px 23px',scale:0.85});
+  gsap.set('#lsparkle',{opacity:0,scale:0,rotation:360,svgOrigin:'20 16'});
+  gsap.set('#lmark',{y:0,scaleX:1,scaleY:1,svgOrigin:'20 38'});
+  lpct(0);
+
+  var tll=gsap.timeline({ delay:0.1, onComplete:function(){
+    gsap.to(loaderEl,{opacity:0,duration:0.45,ease:'power2.out',onComplete:function(){ loaderEl.style.display='none'; heroReveal(); gsap.delayedCall(1.3, function(){ if(window.startGradient) window.startGradient(); }); }});
+  }});
+  tll.to('#lbulb',{opacity:1,scale:1,duration:0.45,ease:'back.out(1.6)'},0);
+  tll.to('#lsparkle',{opacity:1,scale:1,rotation:0,duration:0.8,ease:'back.out(2.2)'},0.3);
+  tll.to({v:0},{v:100,duration:0.9,ease:'power1.out',onUpdate:function(){ lpct(this.targets()[0].v); }},0.3);
+  tll.to('#lmark',{scaleY:0.86,scaleX:1.1,duration:0.12,ease:'power2.out'},1.0)
+     .to('#lmark',{y:-13,scaleY:1.12,scaleX:0.94,duration:0.22,ease:'power2.out'},1.12)
+     .to('#lmark',{y:0,scaleY:0.9,scaleX:1.08,duration:0.16,ease:'power2.in'},1.34)
+     .to('#lmark',{scaleY:1,scaleX:1,duration:0.4,ease:'elastic.out(1,0.5)'},1.5);
+  tll.to('#lsparkle',{scale:1.24,duration:0.12,ease:'power2.out',svgOrigin:'20 16'},1.34)
+     .to('#lsparkle',{scale:1,duration:0.38,ease:'elastic.out(1,0.5)',svgOrigin:'20 16'},1.46)
+     .add(function(){ lcap.innerHTML='Inventionistas'; },1.6);
+})();
+</script>
+<script>
+(function(){
+  var f=document.getElementById('cform'); if(!f) return;
+  var st=document.getElementById('cstatus'), btn=document.getElementById('csubmit');
+  var ENDPOINT='/api/contact';
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var data={ name:f.name.value.trim(), email:f.email.value.trim(), message:f.message.value.trim() };
+    if(!data.name||!data.email||!data.message){ st.textContent='Please fill in every field.'; st.className='cstatus err'; return; }
+    btn.disabled=true; st.textContent='Sending...'; st.className='cstatus';
+    fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+      .then(function(r){ if(!r.ok) throw new Error('bad'); return r.json().catch(function(){return {};}); })
+      .then(function(){ st.textContent='Thank you. We will be in touch.'; st.className='cstatus ok'; f.reset(); })
+      .catch(function(){ st.innerHTML='Could not send right now. Email us at <a href="mailto:founders@inventionistas.com">founders@inventionistas.com</a>'; st.className='cstatus err'; })
+      .finally(function(){ btn.disabled=false; });
+  });
+})();
+</script>
+<script type="module">
+  var __sgStarted = false;
+  async function startGradient(){
+    if (__sgStarted) return; __sgStarted = true;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    try {
+      const React = (await import('react')).default;
+      const { createRoot } = await import('react-dom/client');
+      const { ShaderGradientCanvas, ShaderGradient } = await import('@shadergradient/react');
+      const e = React.createElement;
+      const el = document.getElementById('sg-root');
+      const root = createRoot(el);
+      const url = 'https://www.shadergradient.co/customize?animate=' + (reduce ? 'off' : 'on') + '&axesHelper=off&bgColor1=%23000000&bgColor2=%23000000&brightness=0.35&cAzimuthAngle=180&cDistance=14.59&cPolarAngle=115&cameraZoom=1&color1=%235606ff&color2=%23fe8989&color3=%23000000&destination=onCanvas&embedMode=off&envPreset=city&fov=30&frameRate=10&gizmoHelper=hide&grain=off&lightType=3d&pixelDensity=1.2&positionX=0&positionY=0&positionZ=0.4&range=disabled&rangeEnd=18.9&rangeStart=0&reflection=0&rotationX=50&rotationY=0&rotationZ=225&shader=defaults&type=waterPlane&uAmplitude=0&uDensity=1.3&uFrequency=5.5&uSpeed=0.06&uStrength=8.6&uTime=0.2&wireframe=false';
+      root.render(e(ShaderGradientCanvas, { style: { position: 'absolute', inset: 0 } }, e(ShaderGradient, { control: 'query', urlString: url })));
+      requestAnimationFrame(function(){ el.classList.add('in'); });
+    } catch (err) { console.warn('ShaderGradient unavailable, hero stays clean:', err); }
+  }
+  window.startGradient = startGradient;
+  setTimeout(startGradient, 4000);
+</script>
+<script>
+(function(){
+  var header=document.querySelector('header'), hero=document.querySelector('.hero');
+  if(!header||!hero) return;
+  function onScroll(){ if(window.scrollY > hero.offsetHeight - 72){ header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); } }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll); onScroll();
+})();
+</script>
+<script src="https://unpkg.com/@rive-app/canvas@2"></script>
+<script>
+(function(){
+  if(typeof rive==='undefined') return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cvs=[].slice.call(document.querySelectorAll('canvas.rivec'));
+  var insts=[];
+  cvs.forEach(function(cv){
+    var name=cv.getAttribute('data-char');
+    var r=new rive.Rive({
+      src:'assets/rive/'+name+'-rig.riv', canvas:cv, artboard:name,
+      animations:'idle', autoplay:!reduce,
+      layout:new rive.Layout({fit:'contain'}),
+      onLoad:function(){ try{ r.resizeDrawingSurfaceToCanvas(); }catch(e){} cv.__rive=r; }
+    });
+    insts.push(r);
+  });
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        var r=e.target.__rive; if(!r) return;
+        try{ if(e.isIntersecting){ r.play(); } else { r.pause(); } }catch(err){}
+      });
+    },{threshold:0.08});
+    cvs.forEach(function(cv){ io.observe(cv); });
+  }
+  var rt;
+  window.addEventListener('resize', function(){ clearTimeout(rt); rt=setTimeout(function(){ insts.forEach(function(r){ try{ r.resizeDrawingSurfaceToCanvas(); }catch(e){} }); }, 160); });
+})();
+</script>
+<script>
+/* crew interactivity: hover lift + click bounce */
+(function(){
+  if(typeof gsap==='undefined') return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce) return;
+  document.querySelectorAll('.crew canvas.rivec').forEach(function(cv){
+    cv.addEventListener('mouseenter',function(){ gsap.to(cv,{y:-14,scale:1.12,duration:.38,ease:'power3.out',overwrite:'auto'}); });
+    cv.addEventListener('mouseleave',function(){ gsap.to(cv,{y:0,scale:1,duration:.45,ease:'power3.out',overwrite:'auto'}); });
+    cv.addEventListener('click',function(){
+      var hov = cv.matches(':hover');
+      gsap.timeline({overwrite:'auto'})
+        .to(cv,{y:-34,scale:1.2,duration:.17,ease:'power2.out'})
+        .to(cv,{y:(hov?-14:0),scale:(hov?1.12:1),duration:.62,ease:'elastic.out(1,0.45)'});
+    });
+  });
+})();
+</script>
 </body>
 </html>

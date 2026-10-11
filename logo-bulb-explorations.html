@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventionistas Spark Bulb Explorations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f5f2ec;
+    --card:#fbf9f4;
+    --ink:#16140f;
+    --dim:#655f54;
+    --faint:#a59e90;
+    --hair:rgba(22,20,15,0.13);
+    --spark:#6d4bf2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Space Grotesk",system-ui,sans-serif;
+    line-height:1.5;
+    padding:56px 40px 96px;
+  }
+  .wrap{max-width:1180px;margin:0 auto;}
+
+  header{margin-bottom:56px;max-width:720px;}
+  .eyebrow{
+    font-family:"Space Mono",monospace;
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--spark);
+    margin-bottom:18px;
+  }
+  h1{
+    font-size:30px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin-bottom:14px;
+  }
+  .lede{
+    font-size:15px;
+    color:var(--dim);
+    max-width:640px;
+  }
+  .lede b{color:var(--ink);font-weight:500;}
+
+  section{margin-top:64px;}
+  .sec-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    padding-bottom:14px;
+    margin-bottom:28px;
+    border-bottom:1px solid var(--hair);
+  }
+  .sec-head h2{
+    font-size:16px;
+    font-weight:600;
+    letter-spacing:0.01em;
+  }
+  .sec-head .num{
+    font-family:"Space Mono",monospace;
+    font-size:11px;
+    color:var(--faint);
+    letter-spacing:0.1em;
+  }
+  .sec-head .note{
+    font-family:"Space Mono",monospace;
+    font-size:11px;
+    color:var(--dim);
+    margin-left:auto;
+    letter-spacing:0.02em;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(188px,1fr));
+    gap:1px;
+    background:var(--hair);
+    border:1px solid var(--hair);
+  }
+  .tile{
+    background:var(--card);
+    padding:26px 20px 20px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+  }
+  .stage{
+    height:132px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:20px;
+  }
+  .stage svg{height:120px;width:auto;display:block;}
+  .label{
+    font-size:13px;
+    font-weight:500;
+    letter-spacing:-0.005em;
+    margin-bottom:5px;
+  }
+  .caption{
+    font-family:"Space Mono",monospace;
+    font-size:10.5px;
+    color:var(--faint);
+    letter-spacing:0.02em;
+    line-height:1.45;
+  }
+  .caption .v{color:var(--spark);}
+
+  footer{
+    margin-top:72px;
+    padding-top:22px;
+    border-top:1px solid var(--hair);
+    font-family:"Space Mono",monospace;
+    font-size:11px;
+    color:var(--faint);
+    letter-spacing:0.03em;
+    display:flex;
+    gap:22px;
+    flex-wrap:wrap;
+  }
+  footer .dot{color:var(--spark);}
+
+  @media (max-width:560px){
+    body{padding:40px 16px 72px;}
+    h1{font-size:24px;}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Inventionistas / logo / spark bulb</div>
+    <h1>Bulb and spark explorations</h1>
+    <p class="lede">The concept is a <b>lightbulb holding a violet spark</b>. The spark idea is right; the bulb shape and the spark geometry are still open. Below: a range of bulb silhouettes, base treatments and spark point counts. One ink, one violet, nothing else.</p>
+  </header>
+
+  <section>
+    <div class="sec-head">
+      <span class="num">01</span>
+      <h2>Bulb silhouette</h2>
+      <span class="note">same centered 4-point spark + simple base</span>
+    </div>
+    <div class="grid" id="grid-bulb"></div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="num">02</span>
+      <h2>Base</h2>
+      <span class="note">paired with the classic silhouette</span>
+    </div>
+    <div class="grid" id="grid-base"></div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="num">03</span>
+      <h2>Spark points</h2>
+      <span class="note">sharp sparkle vs fuller star, and size</span>
+    </div>
+    <div class="grid" id="grid-spark"></div>
+  </section>
+
+  <footer>
+    <span><span class="dot">&#9679;</span> ink #16140f</span>
+    <span><span class="dot">&#9679;</span> spark #6d4bf2</span>
+    <span>paper #f5f2ec</span>
+    <span>day mode spec</span>
+  </footer>
+</div>
+
+<script>
+/* ---- geometry helpers -------------------------------------------------- */
+
+// N-point sparkle / star. Smaller inner r vs R = thinner, sparklier points.
+function sparkle(cx,cy,pts,R,r){
+  var n=pts*2,step=Math.PI/pts,d="";
+  for(var i=0;i<n;i++){
+    var rad=(i%2===0)?R:r,a=i*step;
+    d+=(i===0?"M":"L")+(cx+rad*Math.sin(a)).toFixed(2)+" "+(cy-rad*Math.cos(a)).toFixed(2)+" ";
+  }
+  return d+"Z";
+}
+
+var INK="#16140f", SPARK="#6d4bf2";
+
+// spark center sits in the body of the bulb
+var SX=24, SY=19;
+
+function sparkPath(pts,R,ratio,cx,cy){
+  cx=(cx===undefined)?SX:cx;
+  cy=(cy===undefined)?SY:cy;
+  return '<path d="'+sparkle(cx,cy,pts,R,R*ratio)+'" fill="'+SPARK+'"/>';
+}
+
+/* ---- bulb silhouettes (clean geometric outlines) ----------------------- */
+/* common canvas: viewBox 0 0 48 52, bulb body around (24,19) ------------- */
+
+var BULB={
+  // plain circle (current baseline)
+  circle:function(sw,join){
+    return '<circle cx="24" cy="19" r="13" fill="none" stroke="'+INK+'" stroke-width="'+sw+'"'+joinAttr(join)+'/>';
+  },
+  // classic incandescent: near-circular top narrowing into a short neck
+  classic:function(sw,join){
+    var d="M24 5 "
+      +"C32 5 38.5 11.3 38.5 19 "
+      +"C38.5 24.4 35.2 28 32.6 30.6 "
+      +"C31.6 31.6 31 32.8 31 34.2 "
+      +"L31 35.4 L17 35.4 L17 34.2 "
+      +"C17 32.8 16.4 31.6 15.4 30.6 "
+      +"C12.8 28 9.5 24.4 9.5 19 "
+      +"C9.5 11.3 16 5 24 5 Z";
+    return '<path d="'+d+'" fill="none" stroke="'+INK+'" stroke-width="'+sw+'"'+joinAttr(join)+'/>';
+  },
+  // softer teardrop / A19 shape
+  teardrop:function(sw,join){
+    var d="M24 5 "
+      +"C33 5 39 12.2 39 20.3 "
+      +"C39 26.5 34.8 30.6 31 34.2 "
+      +"C29.7 35.4 29.1 36 29.1 36.9 "
+      +"L18.9 36.9 "
+      +"C18.9 36 18.3 35.4 17 34.2 "
+      +"C13.2 30.6 9 26.5 9 20.3 "
+      +"C9 12.2 15 5 24 5 Z";
+    return '<path d="'+d+'" fill="none" stroke="'+INK+'" stroke-width="'+sw+'"'+joinAttr(join)+'/>';
+  },
+  // rounder bulb with a gently flattened bottom
+  flatbottom:function(sw,join){
+    var d="M24 5 "
+      +"C32.8 5 39 11.8 39 20 "
+      +"C39 25.8 35.6 29.8 31.4 31.6 "
+      +"C30.6 31.9 30.2 32.5 30.2 33.4 "
+      +"L17.8 33.4 "
+      +"C17.8 32.5 17.4 31.9 16.6 31.6 "
+      +"C12.4 29.8 9 25.8 9 20 "
+      +"C9 11.8 15.2 5 24 5 Z";
+    return '<path d="'+d+'" fill="none" stroke="'+INK+'" stroke-width="'+sw+'"'+joinAttr(join)+'/>';
+  },
+  // solid ink classic bulb (spark knocked out / on top)
+  solid:function(){
+    var d="M24 5 "
+      +"C32 5 38.5 11.3 38.5 19 "
+      +"C38.5 24.4 35.2 28 32.6 30.6 "
+      +"C31.6 31.6 31 32.8 31 34.2 "
+      +"L31 35.4 L17 35.4 L17 34.2 "
+      +"C17 32.8 16.4 31.6 15.4 30.6 "
+      +"C12.8 28 9.5 24.4 9.5 19 "
+      +"C9.5 11.3 16 5 24 5 Z";
+    return '<path d="'+d+'" fill="'+INK+'"/>';
+  }
+};
+
+function joinAttr(join){ return join ? ' stroke-linejoin="round" stroke-linecap="round"' : ' stroke-linejoin="miter"'; }
+
+/* ---- base treatments --------------------------------------------------- */
+
+var BASE={
+  none:'',
+  nub: // simple line + tiny trapezoid nub (baseline mark)
+    '<line x1="18" y1="37.5" x2="30" y2="37.5" stroke="'+INK+'" stroke-width="1.8" stroke-linecap="round"/>'
+    +'<path d="M21 40 h6 l-1 4 h-4 Z" fill="'+INK+'"/>',
+  line1:
+    '<line x1="17.5" y1="39" x2="30.5" y2="39" stroke="'+INK+'" stroke-width="1.8" stroke-linecap="round"/>',
+  line2:
+    '<line x1="17" y1="38" x2="31" y2="38" stroke="'+INK+'" stroke-width="1.8" stroke-linecap="round"/>'
+    +'<line x1="19.5" y1="41.5" x2="28.5" y2="41.5" stroke="'+INK+'" stroke-width="1.8" stroke-linecap="round"/>',
+  line3:
+    '<line x1="17" y1="37.5" x2="31" y2="37.5" stroke="'+INK+'" stroke-width="1.7" stroke-linecap="round"/>'
+    +'<line x1="18.5" y1="40.5" x2="29.5" y2="40.5" stroke="'+INK+'" stroke-width="1.7" stroke-linecap="round"/>'
+    +'<line x1="20" y1="43.5" x2="28" y2="43.5" stroke="'+INK+'" stroke-width="1.7" stroke-linecap="round"/>',
+  trap:
+    '<path d="M18.5 37.5 H29.5 L27.5 45 H20.5 Z" fill="'+INK+'"/>',
+  screw: // short zigzag thread hint
+    '<path d="M18 37.8 L30 38.8 L18 40 L30 41 L18 42.2 L30 43.2" fill="none" stroke="'+INK+'" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>'
+};
+
+/* ---- svg assembly ------------------------------------------------------ */
+
+function svg(inner){
+  return '<svg viewBox="0 0 48 52" xmlns="http://www.w3.org/2000/svg">'+inner+'</svg>';
+}
+
+function render(targetId, items){
+  var host=document.getElementById(targetId);
+  var html="";
+  items.forEach(function(it){
+    html+='<div class="tile">'
+       + '<div class="stage">'+svg(it.svg)+'</div>'
+       + '<div class="label">'+it.label+'</div>'
+       + '<div class="caption">'+it.caption+'</div>'
+       + '</div>';
+  });
+  host.innerHTML=html;
+}
+
+/* default spark for silhouette + base rows: sharp 4-point */
+function defSpark(){ return sparkPath(4,7,0.28); }
+
+/* ---- 01 bulb silhouettes ----------------------------------------------- */
+
+render('grid-bulb',[
+  {
+    svg: BULB.circle(1.8,false)+BASE.nub+defSpark(),
+    label:'Plain circle',
+    caption:'baseline / current mark'
+  },
+  {
+    svg: BULB.classic(1.8,true)+BASE.nub+defSpark(),
+    label:'Classic incandescent',
+    caption:'round top, short <span class="v">neck</span>'
+  },
+  {
+    svg: BULB.teardrop(1.8,true)+BASE.nub+defSpark(),
+    label:'Soft teardrop (A19)',
+    caption:'fuller, gentler taper'
+  },
+  {
+    svg: BULB.flatbottom(1.8,true)+BASE.line1+defSpark(),
+    label:'Flattened bottom',
+    caption:'rounder, flat base edge'
+  },
+  {
+    svg: BULB.classic(2.6,true)+BASE.nub+defSpark(),
+    label:'Classic / heavy stroke',
+    caption:'weight <span class="v">2.6</span>, round joins'
+  },
+  {
+    svg: BULB.classic(1.25,true)+BASE.nub+defSpark(),
+    label:'Classic / light stroke',
+    caption:'weight <span class="v">1.25</span>, round joins'
+  },
+  {
+    svg: BULB.classic(1.8,false)+BASE.nub+defSpark(),
+    label:'Classic / mitre joins',
+    caption:'sharper corners'
+  },
+  {
+    svg: BULB.solid()+BASE.trap+sparkPath(4,6.4,0.28),
+    label:'Solid ink bulb',
+    caption:'spark sits on top'
+  }
+]);
+
+/* ---- 02 base treatments (on classic silhouette) ------------------------ */
+
+function withClassic(baseKey){
+  return BULB.classic(1.8,true)+BASE[baseKey]+defSpark();
+}
+
+render('grid-base',[
+  { svg: withClassic('line1'), label:'Single line',     caption:'one contact bar' },
+  { svg: withClassic('line2'), label:'Two lines',       caption:'wide then narrow' },
+  { svg: withClassic('line3'), label:'Three lines',     caption:'stepped stack' },
+  { svg: withClassic('trap'),  label:'Solid trapezoid', caption:'filled screw base' },
+  { svg: withClassic('nub'),   label:'Line + nub',      caption:'bar + small foot' },
+  { svg: withClassic('screw'), label:'Screw thread',    caption:'zigzag <span class="v">E27</span> hint' }
+]);
+
+/* ---- 03 spark points --------------------------------------------------- */
+/* sharp sparkle: ratio 0.28  |  fuller star: ratio 0.45 ------------------ */
+
+function bulbForSpark(){ return BULB.classic(1.8,true)+BASE.line2; }
+
+render('grid-spark',[
+  { svg: bulbForSpark()+sparkPath(4,7,0.28), label:'4-point sparkle', caption:'sharp / <span class="v">r 0.28R</span>' },
+  { svg: bulbForSpark()+sparkPath(5,7,0.28), label:'5-point sparkle', caption:'sharp / <span class="v">r 0.28R</span>' },
+  { svg: bulbForSpark()+sparkPath(6,7,0.28), label:'6-point sparkle', caption:'sharp / <span class="v">r 0.28R</span>' },
+  { svg: bulbForSpark()+sparkPath(4,7,0.45), label:'4-point star',    caption:'fuller / <span class="v">r 0.45R</span>' },
+  { svg: bulbForSpark()+sparkPath(5,7,0.45), label:'5-point star',    caption:'fuller / <span class="v">r 0.45R</span>' },
+  { svg: bulbForSpark()+sparkPath(6,7,0.45), label:'6-point star',    caption:'fuller / <span class="v">r 0.45R</span>' },
+  { svg: bulbForSpark()+sparkPath(4,4.6,0.28), label:'4-point, small', caption:'spark size <span class="v">R 4.6</span>' },
+  { svg: bulbForSpark()+sparkPath(4,9,0.28),   label:'4-point, large', caption:'spark size <span class="v">R 9.0</span>' }
+]);
+</script>
+</body>
+</html>

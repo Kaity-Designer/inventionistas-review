@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventionistas Monster Mascots</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f5f2ec;
+    --ink: #16140f;
+    --tile: #141019;
+    --tile-alt: #17121f;
+    --violet: #6d4bf2;
+    --violet-2: #a78bfa;
+    --magenta: #e0479b;
+    --pink: #ec4899;
+    --cyan: #22d3ee;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Space Grotesk", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 72px 24px 96px;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 44px 16px 64px; }
+  }
+
+  /* ---- Header ---- */
+  .eyebrow {
+    font-family: "Space Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin: 0 0 18px;
+  }
+
+  h1 {
+    font-size: clamp(34px, 6.5vw, 58px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+    margin: 0 0 20px;
+    max-width: 16ch;
+  }
+
+  .lede {
+    font-size: clamp(15px, 2.2vw, 18px);
+    max-width: 58ch;
+    color: #403b32;
+    margin: 0 0 10px;
+  }
+
+  .meta {
+    font-family: "Space Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: #6b6456;
+    margin-top: 24px;
+  }
+
+  .swatches {
+    display: flex;
+    gap: 8px;
+    margin-top: 26px;
+    flex-wrap: wrap;
+  }
+  .swatch {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    color: #6b6456;
+  }
+  .swatch .dot {
+    width: 15px; height: 15px; border-radius: 50%;
+    border: 1.5px solid rgba(22,20,15,0.18);
+  }
+
+  .rule {
+    height: 2px;
+    background: var(--ink);
+    opacity: 0.12;
+    margin: 40px 0 44px;
+    border: 0;
+  }
+
+  /* ---- Grid ---- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 22px;
+  }
+
+  @media (max-width: 400px) {
+    .grid { grid-template-columns: 1fr; gap: 18px; }
+  }
+
+  .tile {
+    background: var(--tile);
+    border-radius: 24px;
+    padding: 30px 26px 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 18px 40px -22px rgba(109,75,242,0.55);
+  }
+  .tile.alt { background: var(--tile-alt); }
+
+  /* faint halo behind the character */
+  .tile::before {
+    content: "";
+    position: absolute;
+    top: 42px;
+    left: 50%;
+    width: 210px;
+    height: 210px;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, rgba(167,139,250,0.20) 0%, rgba(167,139,250,0) 68%);
+    pointer-events: none;
+  }
+  .tile.halo-pink::before { background: radial-gradient(circle, rgba(224,71,155,0.22) 0%, rgba(224,71,155,0) 68%); }
+  .tile.halo-cyan::before { background: radial-gradient(circle, rgba(34,211,238,0.20) 0%, rgba(34,211,238,0) 68%); }
+
+  .stage {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    z-index: 1;
+  }
+  .stage svg { width: 100%; height: 100%; display: block; }
+
+  .tag {
+    font-family: "Space Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--violet-2);
+    margin: 10px 0 4px;
+    z-index: 1;
+  }
+
+  .name {
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+    margin: 6px 0 8px;
+    z-index: 1;
+  }
+
+  .caption {
+    font-family: "Space Mono", monospace;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #bdb3d6;
+    max-width: 30ch;
+    margin: 0;
+    z-index: 1;
+  }
+
+  .footer {
+    font-family: "Space Mono", monospace;
+    font-size: 12px;
+    color: #6b6456;
+    margin-top: 48px;
+    letter-spacing: 0.03em;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Inventionistas / Character System</p>
+    <h1>Five little monsters for an inventing machine.</h1>
+    <p class="lede">A sticker set of cute, mischievous creatures built from the things Inventionistas is made of: the spark, the gear, the bulb, the brain and the bolt. Flat vector, bold rounded ink lines, brand violet and magenta with a cyan zap. Each is a tidy grouped SVG, ready to be rigged in Rive.</p>
+    <div class="swatches">
+      <span class="swatch"><span class="dot" style="background:#6d4bf2"></span>violet #6d4bf2</span>
+      <span class="swatch"><span class="dot" style="background:#a78bfa"></span>light #a78bfa</span>
+      <span class="swatch"><span class="dot" style="background:#e0479b"></span>magenta #e0479b</span>
+      <span class="swatch"><span class="dot" style="background:#ec4899"></span>pink #ec4899</span>
+      <span class="swatch"><span class="dot" style="background:#22d3ee"></span>cyan #22d3ee</span>
+      <span class="swatch"><span class="dot" style="background:#141019"></span>ink #141019</span>
+    </div>
+  </header>
+
+  <hr class="rule">
+
+  <div class="grid">
+
+    <!-- ============ 1. SPARK BUDDY ============ -->
+    <div class="tile">
+      <div class="stage">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Spark Buddy, a friendly four point spark mascot">
+          <g id="spark-buddy" stroke="#141019" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+            <!-- tiny limbs (behind body) -->
+            <path d="M54,120 Q40,126 36,140" fill="none" stroke-width="7"/>
+            <path d="M146,120 Q160,126 164,140" fill="none" stroke-width="7"/>
+            <path d="M86,162 L82,184" fill="none" stroke-width="7"/>
+            <path d="M114,162 L118,184" fill="none" stroke-width="7"/>
+            <!-- feet -->
+            <ellipse cx="80" cy="186" rx="9" ry="5" fill="#141019" stroke="none"/>
+            <ellipse cx="120" cy="186" rx="9" ry="5" fill="#141019" stroke="none"/>
+            <!-- sparkle body -->
+            <path d="M100,22 Q112,88 178,100 Q112,112 100,178 Q88,112 22,100 Q88,88 100,22 Z" fill="#6d4bf2"/>
+            <!-- soft inner highlight -->
+            <path d="M100,46 Q108,90 150,100 Q108,110 100,154 Q92,110 50,100 Q92,90 100,46 Z" fill="#a78bfa" stroke="none" opacity="0.55"/>
+            <!-- cheeks -->
+            <ellipse cx="72" cy="112" rx="8" ry="5" fill="#ec4899" stroke="none" opacity="0.85"/>
+            <ellipse cx="128" cy="112" rx="8" ry="5" fill="#ec4899" stroke="none" opacity="0.85"/>
+            <!-- eyes -->
+            <ellipse cx="84" cy="96" rx="11" ry="13" fill="#ffffff"/>
+            <ellipse cx="116" cy="96" rx="11" ry="13" fill="#ffffff"/>
+            <circle cx="86" cy="98" r="6" fill="#141019" stroke="none"/>
+            <circle cx="114" cy="98" r="6" fill="#141019" stroke="none"/>
+            <circle cx="83.5" cy="94.5" r="2.4" fill="#ffffff" stroke="none"/>
+            <circle cx="111.5" cy="94.5" r="2.4" fill="#ffffff" stroke="none"/>
+            <!-- smile -->
+            <path d="M86,118 Q100,130 114,118" fill="none" stroke-width="3.2"/>
+            <!-- cyan spark accents -->
+            <path d="M158,52 Q161,64 172,66 Q161,68 158,80 Q155,68 144,66 Q155,64 158,52 Z" fill="#22d3ee" stroke-width="2.4"/>
+            <path d="M42,150 Q44,158 52,160 Q44,162 42,170 Q40,162 32,160 Q40,158 42,150 Z" fill="#22d3ee" stroke-width="2.4"/>
+          </g>
+        </svg>
+      </div>
+      <p class="tag">Hero mascot</p>
+      <h2 class="name">Spark Buddy</h2>
+      <p class="caption">The friendly first idea. Always a little too excited to help.</p>
+    </div>
+
+    <!-- ============ 2. GEAR MONSTER ============ -->
+    <div class="tile halo-pink alt">
+      <div class="stage">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gear Monster, a cog creature with a toothy grin">
+          <g id="gear-monster" stroke="#141019" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+            <!-- teeth (behind body) -->
+            <g fill="#e0479b">
+              <rect x="-11" y="-99" width="22" height="30" rx="7" transform="translate(100,100) rotate(0)"/>
+              <rect x="-11" y="-99" width="22" height="30" rx="7" transform="translate(100,100) rotate(45)"/>
+              <rect x="-11" y="-99" width="22" height="30" rx="7" transform="translate(100,100) rotate(90)"/>
+              <rect x="-11" y="-99" width="22" height="30" rx="7" transform="translate(100,100) rotate(135)"/>
+              <rect x="-11" y="-99" width="22" height="30" rx="7" transform="translate(100,100) rotate(180)"/>
+              <rect x="-11" y="-99" width="22" height="30" rx="7" transform="translate(100,100) rotate(225)"/>
+              <rect x="-11" y="-99" width="22" height="30" rx="7" transform="translate(100,100) rotate(270)"/>
+              <rect x="-11" y="-99" width="22" height="30" rx="7" transform="translate(100,100) rotate(315)"/>
+            </g>
+            <!-- body -->
+            <circle cx="100" cy="100" r="70" fill="#e0479b"/>
+            <!-- inner ring highlight -->
+            <circle cx="100" cy="100" r="56" fill="none" stroke="#141019" stroke-width="2.2" opacity="0.28"/>
+            <circle cx="100" cy="100" r="50" fill="#f06cb0" stroke="none"/>
+            <!-- angry-punk eyebrows -->
+            <path d="M66,74 L90,82" fill="none" stroke-width="4.2"/>
+            <path d="M134,74 L110,82" fill="none" stroke-width="4.2"/>
+            <!-- eyes -->
+            <ellipse cx="80" cy="96" rx="14" ry="15" fill="#ffffff"/>
+            <ellipse cx="120" cy="96" rx="14" ry="15" fill="#ffffff"/>
+            <circle cx="83" cy="99" r="7" fill="#141019" stroke="none"/>
+            <circle cx="117" cy="99" r="7" fill="#141019" stroke="none"/>
+            <circle cx="80" cy="95" r="2.6" fill="#ffffff" stroke="none"/>
+            <circle cx="114" cy="95" r="2.6" fill="#ffffff" stroke="none"/>
+            <!-- toothy grin -->
+            <path d="M74,124 L126,124 Q128,140 114,142 L86,142 Q72,140 74,124 Z" fill="#141019"/>
+            <path d="M80,124 L86,133 L92,124 L98,133 L104,124 L110,133 L116,124" fill="#ffffff" stroke="none"/>
+            <!-- cyan zap -->
+            <path d="M150,38 L138,56 L148,56 L140,72 L160,50 L150,50 Z" fill="#22d3ee" stroke-width="2.4"/>
+          </g>
+        </svg>
+      </div>
+      <p class="tag">The muscle</p>
+      <h2 class="name">Gnash</h2>
+      <p class="caption">Keeps the whole machine turning. Bites first, apologises never.</p>
+    </div>
+
+    <!-- ============ 3. BULB CREATURE ============ -->
+    <div class="tile halo-cyan">
+      <div class="stage">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bulb Creature, a lightbulb with a winking face">
+          <g id="bulb-creature" stroke="#141019" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+            <!-- tiny legs (behind base) -->
+            <path d="M86,178 L84,192" fill="none" stroke-width="7"/>
+            <path d="M114,178 L116,192" fill="none" stroke-width="7"/>
+            <ellipse cx="82" cy="193" rx="8" ry="4.5" fill="#141019" stroke="none"/>
+            <ellipse cx="118" cy="193" rx="8" ry="4.5" fill="#141019" stroke="none"/>
+            <!-- screw base -->
+            <path d="M70,134 L130,134 L126,166 Q126,178 114,180 L86,180 Q74,178 74,166 Z" fill="#a78bfa"/>
+            <path d="M73,146 L127,146" fill="none" stroke-width="2.4" opacity="0.65"/>
+            <path d="M75,158 L125,158" fill="none" stroke-width="2.4" opacity="0.65"/>
+            <!-- glass head -->
+            <circle cx="100" cy="82" r="60" fill="#22d3ee"/>
+            <!-- glass shine -->
+            <path d="M68,56 Q78,40 98,38" fill="none" stroke="#ffffff" stroke-width="5" opacity="0.7"/>
+            <!-- cheeks -->
+            <ellipse cx="74" cy="94" rx="7" ry="4.5" fill="#ec4899" stroke="none" opacity="0.8"/>
+            <ellipse cx="126" cy="94" rx="7" ry="4.5" fill="#ec4899" stroke="none" opacity="0.8"/>
+            <!-- eyes: left open, right wink -->
+            <ellipse cx="83" cy="80" rx="11" ry="13" fill="#ffffff"/>
+            <circle cx="85" cy="82" r="6" fill="#141019" stroke="none"/>
+            <circle cx="82.5" cy="78.5" r="2.4" fill="#ffffff" stroke="none"/>
+            <path d="M107,82 Q117,74 127,82" fill="none" stroke-width="3.4"/>
+            <!-- happy open smile -->
+            <path d="M84,100 Q100,116 116,100 Q100,110 84,100 Z" fill="#141019"/>
+            <path d="M94,108 Q100,113 106,108 Z" fill="#ec4899" stroke="none"/>
+            <!-- cyan idea sparks -->
+            <path d="M150,34 Q152,42 160,44 Q152,46 150,54 Q148,46 140,44 Q148,42 150,34 Z" fill="#6d4bf2" stroke-width="2.2"/>
+            <path d="M44,40 Q46,47 53,49 Q46,51 44,58 Q42,51 35,49 Q42,47 44,40 Z" fill="#6d4bf2" stroke-width="2.2"/>
+          </g>
+        </svg>
+      </div>
+      <p class="tag">The optimist</p>
+      <h2 class="name">Flick</h2>
+      <p class="caption">Switches on at the worst possible moment with the best possible idea.</p>
+    </div>
+
+    <!-- ============ 4. BRAIN CHARACTER ============ -->
+    <div class="tile halo-pink">
+      <div class="stage">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Brain Character, a smart cheeky brain with a jacket collar">
+          <g id="brain-character" stroke="#141019" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+            <!-- jacket collar (behind) -->
+            <path d="M66,150 L100,172 L74,176 Q66,164 66,150 Z" fill="#6d4bf2"/>
+            <path d="M134,150 L100,172 L126,176 Q134,164 134,150 Z" fill="#6d4bf2"/>
+            <path d="M100,160 L100,176" fill="none" stroke-width="2.6"/>
+            <!-- brain body -->
+            <path d="M40,104
+                     C34,74 54,54 78,57
+                     C85,42 115,42 122,57
+                     C146,54 166,74 160,104
+                     C166,128 150,150 122,150
+                     L78,150
+                     C50,150 34,128 40,104 Z" fill="#ec4899"/>
+            <!-- central fold -->
+            <path d="M100,52 Q94,80 100,108 Q106,130 100,150" fill="none" stroke-width="2.6" opacity="0.6"/>
+            <!-- squiggle folds -->
+            <path d="M58,78 Q70,86 62,98" fill="none" stroke-width="2.4" opacity="0.6"/>
+            <path d="M52,112 Q66,116 60,128" fill="none" stroke-width="2.4" opacity="0.6"/>
+            <path d="M142,78 Q130,86 138,98" fill="none" stroke-width="2.4" opacity="0.6"/>
+            <path d="M148,112 Q134,116 140,128" fill="none" stroke-width="2.4" opacity="0.6"/>
+            <!-- eyes -->
+            <ellipse cx="82" cy="98" rx="13" ry="14" fill="#ffffff"/>
+            <ellipse cx="118" cy="98" rx="13" ry="14" fill="#ffffff"/>
+            <circle cx="86" cy="100" r="6.5" fill="#141019" stroke="none"/>
+            <circle cx="122" cy="100" r="6.5" fill="#141019" stroke="none"/>
+            <circle cx="83" cy="96" r="2.5" fill="#ffffff" stroke="none"/>
+            <circle cx="119" cy="96" r="2.5" fill="#ffffff" stroke="none"/>
+            <!-- raised brow for attitude -->
+            <path d="M68,80 Q80,74 94,78" fill="none" stroke-width="3.6"/>
+            <!-- smirk -->
+            <path d="M84,124 Q100,134 120,122" fill="none" stroke-width="3.4"/>
+            <!-- cyan zap -->
+            <path d="M158,42 L146,60 L156,60 L148,76 L168,54 L158,54 Z" fill="#22d3ee" stroke-width="2.2"/>
+          </g>
+        </svg>
+      </div>
+      <p class="tag">The brains</p>
+      <h2 class="name">Noodle</h2>
+      <p class="caption">Already three steps ahead of you and slightly smug about it.</p>
+    </div>
+
+    <!-- ============ 5. BOLT BOT ============ -->
+    <div class="tile halo-cyan alt">
+      <div class="stage">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bolt Bot, a boxy robot with a lightning screen face">
+          <g id="bolt-bot" stroke="#141019" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+            <!-- antenna -->
+            <path d="M100,42 L100,24" fill="none" stroke-width="3.4"/>
+            <circle cx="100" cy="18" r="8" fill="#22d3ee"/>
+            <!-- side ears -->
+            <rect x="26" y="88" width="16" height="34" rx="6" fill="#a78bfa"/>
+            <rect x="158" y="88" width="16" height="34" rx="6" fill="#a78bfa"/>
+            <!-- little arms -->
+            <path d="M40,132 Q26,140 28,154" fill="none" stroke-width="7"/>
+            <path d="M160,132 Q174,140 172,154" fill="none" stroke-width="7"/>
+            <circle cx="27" cy="158" r="6" fill="#141019" stroke="none"/>
+            <circle cx="173" cy="158" r="6" fill="#141019" stroke="none"/>
+            <!-- feet -->
+            <rect x="66" y="166" width="26" height="16" rx="7" fill="#a78bfa"/>
+            <rect x="108" y="166" width="26" height="16" rx="7" fill="#a78bfa"/>
+            <!-- body/head box -->
+            <rect x="44" y="44" width="112" height="124" rx="26" fill="#6d4bf2"/>
+            <!-- screen face -->
+            <rect x="60" y="66" width="80" height="78" rx="18" fill="#17121f"/>
+            <!-- eyes on screen -->
+            <circle cx="84" cy="96" r="12" fill="#ffffff"/>
+            <circle cx="116" cy="96" r="12" fill="#ffffff"/>
+            <circle cx="86" cy="98" r="5.5" fill="#141019" stroke="none"/>
+            <circle cx="118" cy="98" r="5.5" fill="#141019" stroke="none"/>
+            <circle cx="83" cy="93" r="2.2" fill="#ffffff" stroke="none"/>
+            <circle cx="115" cy="93" r="2.2" fill="#ffffff" stroke="none"/>
+            <!-- energetic zigzag mouth -->
+            <path d="M74,122 L84,116 L94,124 L104,116 L114,124 L124,118" fill="none" stroke="#22d3ee" stroke-width="3.4"/>
+            <!-- lightning emblem on chest border -->
+            <path d="M104,150 L94,162 L101,162 L96,174 L112,159 L104,159 Z" fill="#22d3ee" stroke-width="2.2"/>
+            <!-- spark accent -->
+            <path d="M158,58 Q160,65 167,67 Q160,69 158,76 Q156,69 149,67 Q156,65 158,58 Z" fill="#ec4899" stroke-width="2.2"/>
+          </g>
+        </svg>
+      </div>
+      <p class="tag">The engine</p>
+      <h2 class="name">Voltz</h2>
+      <p class="caption">Runs on pure current. Zero to prototype in one little zap.</p>
+    </div>
+
+  </div>
+
+  <p class="footer">Flat vector set, grouped per character for Rive. Ink #141019 outlines, ~3 unit weight. Day mode page, dark character tiles.</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Inventionistas · Logo Options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root{ --paper:#f5f2ec; --card:#fbf9f4; --ink:#16140f; --dim:#655f54; --faint:#a59e90; --line:rgba(22,20,15,0.13); --violet:#6d4bf2; }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:"Space Grotesk",system-ui,sans-serif; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px; margin:0 auto; padding:52px 28px 90px}
+  .head{border-bottom:1px solid var(--line); padding-bottom:24px; margin-bottom:10px}
+  .kicker{font-family:"Space Mono",monospace; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--violet)}
+  h1{font-size:clamp(26px,4.4vw,40px); font-weight:700; letter-spacing:-.03em; margin:14px 0 8px}
+  .head p{color:var(--dim); font-size:15px; margin:0; max-width:52em}
+  h2.sec{font-family:"Space Mono",monospace; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--faint); margin:46px 0 16px; font-weight:400}
+  .grid{display:grid; gap:14px; grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:720px){.grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:460px){.grid{grid-template-columns:1fr}}
+  .tile{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:30px 20px 22px; display:flex; flex-direction:column; align-items:center}
+  .tile svg{height:120px; width:auto; display:block; margin-bottom:16px}
+  .tile .lab{font-size:15px; font-weight:600; letter-spacing:-.01em}
+  .tile .sub{font-family:"Space Mono",monospace; font-size:11px; color:var(--faint); margin-top:4px; letter-spacing:.04em}
+  .note{color:var(--dim); font-size:14px; line-height:1.6; max-width:640px; margin-top:28px}
+  .note b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div class="kicker">Inventionistas · logo options</div>
+    <h1>Base and spark variants</h1>
+    <p>Two things to compare: one line vs two lines under the circle, and a spark with four, five, or six points (four is close to the Gemini mark, so five and six give us distance).</p>
+  </div>
+
+  <h2 class="sec">Base under the circle</h2>
+  <div class="grid g2">
+    <div class="tile">
+      <svg viewBox="0 0 40 46" fill="none" data-base="one" data-pts="4"></svg>
+      <div class="lab">One line</div><div class="sub">current</div>
+    </div>
+    <div class="tile">
+      <svg viewBox="0 0 40 46" fill="none" data-base="two" data-pts="4"></svg>
+      <div class="lab">Two lines</div><div class="sub">wider then narrower</div>
+    </div>
+  </div>
+
+  <h2 class="sec">Spark points</h2>
+  <div class="grid">
+    <div class="tile">
+      <svg viewBox="0 0 40 46" fill="none" data-base="two" data-pts="4"></svg>
+      <div class="lab">Four point</div><div class="sub">the sparkle</div>
+    </div>
+    <div class="tile">
+      <svg viewBox="0 0 40 46" fill="none" data-base="two" data-pts="5"></svg>
+      <div class="lab">Five point</div><div class="sub">a star</div>
+    </div>
+    <div class="tile">
+      <svg viewBox="0 0 40 46" fill="none" data-base="two" data-pts="6"></svg>
+      <div class="lab">Six point</div><div class="sub">a burst</div>
+    </div>
+  </div>
+
+  <p class="note"><b>Tell me which base and how many points</b>, and I will lock it in across the icon, lockups, the loader, and the Rive file. We can also try the spark slightly rounder or sharper on whichever point count you like.</p>
+</div>
+
+<script>
+  var NS = "http://www.w3.org/2000/svg";
+  function sparkle(cx, cy, pts, R, r){
+    var n = pts * 2, step = Math.PI / pts, d = "";
+    for (var i = 0; i < n; i++){
+      var rad = (i % 2 === 0) ? R : r, a = i * step;
+      var x = cx + rad * Math.sin(a), y = cy - rad * Math.cos(a);
+      d += (i === 0 ? "M" : "L") + x.toFixed(2) + " " + y.toFixed(2) + " ";
+    }
+    return d + "Z";
+  }
+  function el(tag, attrs){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+
+  document.querySelectorAll("svg[data-pts]").forEach(function(svg){
+    var pts = parseInt(svg.getAttribute("data-pts"), 10);
+    var base = svg.getAttribute("data-base");
+    // bulb circle
+    svg.appendChild(el("circle", { cx:20, cy:16, r:11, stroke:"#16140f", "stroke-width":1.8, fill:"none" }));
+    if (base === "one"){
+      svg.appendChild(el("line", { x1:14, y1:30.5, x2:26, y2:30.5, stroke:"#16140f", "stroke-width":1.8, "stroke-linecap":"round" }));
+      svg.appendChild(el("path", { d:"M17.5 33.5 h5 l-1 3.6 h-3 Z", fill:"#16140f" }));
+    } else {
+      svg.appendChild(el("line", { x1:13, y1:30, x2:27, y2:30, stroke:"#16140f", "stroke-width":1.8, "stroke-linecap":"round" }));
+      svg.appendChild(el("line", { x1:15.5, y1:33, x2:24.5, y2:33, stroke:"#16140f", "stroke-width":1.8, "stroke-linecap":"round" }));
+      svg.appendChild(el("path", { d:"M18 35.8 h4 l-0.9 3.2 h-2.2 Z", fill:"#16140f" }));
+    }
+    // spark
+    var r = pts === 4 ? 2.5 : (pts === 5 ? 2.7 : 2.9);
+    svg.appendChild(el("path", { d: sparkle(20, 16, pts, 7, r), fill:"#6d4bf2" }));
+  });
+</script>
+</body>
+</html>

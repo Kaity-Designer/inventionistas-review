@@ -4,6 +4,12 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Inventionistas · Building AI Inventors</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="favicon.svg" />
+<meta name="theme-color" content="#f4f1ea" />
+<meta property="og:title" content="Inventionistas · Building AI Inventors" />
+<meta property="og:description" content="Building AI Inventors. Autoresearch systems that make bigger leaps to find novel solutions, tested on real industry problems." />
+<meta property="og:type" content="website" />
 <meta name="description" content="Building AI Inventors. Inventionistas builds AI for invention: autoresearch systems that make bigger leaps to find novel solutions, tested on real industry problems." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -46,10 +52,24 @@
     background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
     background-size:64px 64px; mask-image:linear-gradient(180deg,transparent,#000 8%,#000 92%,transparent)}
 
-  header{position:sticky; top:0; z-index:40; backdrop-filter:blur(8px); background:rgba(244,241,234,.7); border-bottom:1px solid var(--line)}
+  header{position:sticky; top:0; z-index:40; background:transparent; border-bottom:1px solid transparent; transition:background .35s ease, border-color .35s ease, -webkit-backdrop-filter .35s ease, backdrop-filter .35s ease}
+  header.scrolled{background:rgba(244,241,234,.85); border-bottom:1px solid var(--line); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px)}
+  header .brand{color:#f4f1ea}
+  header.scrolled .brand{color:var(--ink)}
+  header .brand svg circle, header .brand svg line{stroke:#f4f1ea}
+  header .brand svg path[fill="#16140f"]{fill:#f4f1ea}
+  header.scrolled .brand svg circle, header.scrolled .brand svg line{stroke:var(--ink)}
+  header.scrolled .brand svg path[fill="#16140f"]{fill:var(--ink)}
+  header nav.links a{color:rgba(244,241,234,.80)}
+  header nav.links a:hover{color:#fff}
+  header.scrolled nav.links a{color:var(--dim)}
+  header.scrolled nav.links a:hover{color:var(--ink)}
   .bar{display:flex; align-items:center; justify-content:space-between; height:66px}
   .brand{display:flex; align-items:center; gap:13px; font-weight:600; font-size:18px; letter-spacing:-.01em}
   .brand svg{width:36px; height:40px; display:block}
+  .brand .wm{display:inline-block; font-weight:600}
+  .brand .sdi{position:relative; display:inline-block}
+  .brand .sdi .tt{position:absolute; left:50%; transform:translateX(-50%); top:-0.04em; width:0.46em; height:0.46em}
   nav.links{display:flex; gap:24px}
   nav.links a{font-family:var(--mono); font-size:12.5px; color:var(--dim); text-decoration:none; transition:color .25s}
   a:focus-visible, button:focus-visible{outline:2px solid var(--violet); outline-offset:3px; border-radius:2px}
@@ -58,10 +78,23 @@
   nav.links a:hover{color:var(--ink)}
   @media(max-width:620px){ nav.links{display:none} }
 
-  .hero{position:relative; z-index:1; min-height:calc(100vh - 66px); display:flex; align-items:center; overflow:hidden}
+  .hero{position:relative; z-index:1; min-height:100vh; margin-top:-66px; padding-top:66px; display:flex; align-items:center; overflow:hidden}
   #sg-root{position:absolute; inset:0; z-index:0; opacity:0; transition:opacity 1.2s ease; pointer-events:none}
   #sg-root.in{opacity:1}
+  #hero-ov{position:absolute; inset:0; z-index:1; pointer-events:none; -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px); background:rgba(16,13,24,0.40)}
+  #hero-scrim{position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(100deg, rgba(14,11,20,0.80) 0%, rgba(14,11,20,0.42) 44%, rgba(14,11,20,0) 72%)}
   .hero .wrap{position:relative; z-index:2}
+  /* hero sits on the ShaderGradient (dark), so hero text and mark go light */
+  .hero{background:#120f1a}
+  .hero .hero-tag{color:#cfc9df; border-bottom-color:rgba(255,255,255,0.22)}
+  .hero .hero-tag .r{color:#c9b8ff}
+  .hero h1{color:#f6f3ee}
+  .hero h1 .violet{color:#b49cff}
+  .hero .lede{color:#e2dde9}
+  .hero .scrollcue{color:#b9b3c9}
+  .hero .mark circle, .hero .mark line{stroke:#f4f1ea}
+  .hero .mark path{fill:#f4f1ea}
+  .hero .mark #heroSpark{fill:#b49cff}
   .hero-tag{display:flex; justify-content:space-between; font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); border-bottom:1px solid var(--line2); padding-bottom:14px; margin-bottom:40px}
   .hero-tag .r{color:var(--violet)}
   .hero .mark{width:58px; height:64px; display:block; margin-bottom:22px}
@@ -69,7 +102,7 @@
   h1 .word{display:inline-block; will-change:transform}
   h1 .violet{color:var(--violet)}
   .lede{font-size:clamp(17px,2.1vw,22px); line-height:1.5; color:#3b372f; max-width:600px; margin-top:32px; font-weight:500}
-  .scrollcue{position:absolute; left:0; bottom:22px; font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim)}
+  .scrollcue{position:absolute; right:30px; bottom:26px; z-index:2; font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim)}
 
   section{position:relative; z-index:1; padding:106px 0; border-top:1px solid var(--line); background:var(--paper)}
   .sec-head{display:flex; gap:18px; align-items:baseline; margin-bottom:30px}
@@ -99,7 +132,10 @@
   .loop-note{margin-top:26px; font-family:var(--mono); font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); display:inline-flex; align-items:center; gap:11px}
   .loop-note svg{width:15px;height:15px}
 
-  .contact{display:grid; grid-template-columns:1.2fr 1fr; gap:48px; align-items:end}
+  .contact-card{position:relative; overflow:hidden; background:var(--card); border:1px solid var(--line); border-radius:30px; padding:clamp(30px,4vw,60px); box-shadow:0 34px 70px -34px rgba(22,20,15,.22)}
+  .contact-card::before{content:""; position:absolute; left:0; right:0; top:0; height:4px; background:linear-gradient(90deg,#6d4bf2,#a78bfa,#fe8989)}
+  .contact-l .label{margin-bottom:20px}
+  .contact{display:grid; grid-template-columns:1.05fr 1fr; gap:clamp(32px,4vw,56px); align-items:start}
   .contact-h{font-size:clamp(34px,6vw,66px); font-weight:700; letter-spacing:-.035em; line-height:.98}
   .contact-p{color:var(--dim); font-size:17.5px; margin-top:22px; max-width:28em; line-height:1.6}
   .mail{display:inline-flex; align-items:center; gap:13px; font-family:var(--mono); font-size:clamp(14px,1.8vw,18px); text-decoration:none; color:var(--ink); border:1px solid var(--line2); border-radius:52px; padding:17px 26px; transition:border-color .3s,background .3s,transform .3s; background:var(--card)}
@@ -131,7 +167,25 @@
   nav.links a::after{content:""; position:absolute; left:0; right:100%; bottom:-4px; height:1px; background:var(--violet); transition:right .28s cubic-bezier(.22,1,.36,1)}
   nav.links a:hover::after{right:0}
 
+  /* mascots (the crew) */
+  .bob{display:inline-block}
+  .step{position:relative}
+  .step .mascot{height:74px; width:auto; display:block; margin:0 0 16px; filter:drop-shadow(0 7px 11px rgba(22,20,15,.14)); transition:transform .35s cubic-bezier(.22,1,.36,1); will-change:transform}
+  .step:hover .mascot{transform:translateY(-6px) rotate(-4deg) scale(1.06)}
+
+  .crew{display:grid; grid-template-columns:repeat(5,1fr); gap:28px; margin-top:24px}
+  .crew .mem{display:flex; flex-direction:column; align-items:center; text-align:center; gap:11px}
+  .crew .mem .bob{min-height:208px; display:flex; align-items:flex-end}
+  .crew canvas{height:200px; width:auto; display:block; cursor:pointer; filter:drop-shadow(0 11px 18px rgba(22,20,15,.17)); will-change:transform}
+  .crew .nm{font-weight:600; font-size:15.5px; letter-spacing:-.012em}
+  .crew .rl{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
+  .crew-lead{font-size:clamp(22px,3.3vw,36px); font-weight:500; letter-spacing:-.02em; margin-bottom:46px}
+  @media(prefers-reduced-motion:reduce){ .bob{animation:none} }
+
   @media(max-width:760px){
+    .crew{grid-template-columns:repeat(2,1fr); gap:30px 18px}
+    .crew .mem:last-child{grid-column:1 / -1}
+    .step .mascot{height:64px}
     .points,.steps,.contact{grid-template-columns:1fr}
     .point:nth-child(2){padding-left:0; border-left:none; border-top:1px solid var(--line)}
     .step + .step{padding-left:0; border-left:none; border-top:1px solid var(--line)}
@@ -149,10 +203,11 @@
     <g id="lmark">
       <g id="lbulb">
         <circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="1.9"/>
-        <line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#16140f" stroke-width="1.9" stroke-linecap="round"/>
-        <path d="M17.4 33.5 h5.2 l-1.1 3.6 h-3 Z" fill="#16140f"/>
+        <line x1="15" y1="29" x2="25" y2="29" stroke="#16140f" stroke-width="1.9" stroke-linecap="round"/>
+        <line x1="16.75" y1="31" x2="23.25" y2="31" stroke="#16140f" stroke-width="1.9" stroke-linecap="round"/>
+        <line x1="18.25" y1="33" x2="21.75" y2="33" stroke="#16140f" stroke-width="1.9" stroke-linecap="round"/>
       </g>
-      <path id="lsparkle" d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/>
+      <path id="lsparkle" d="M20.00 9.00 L21.53 13.90 L26.66 13.84 L22.47 16.80 L24.11 21.66 L20.00 18.60 L15.89 21.66 L17.53 16.80 L13.34 13.84 L18.47 13.90 Z" fill="#6d4bf2"/>
     </g>
   </svg>
   <div id="lcap">&nbsp;</div>
@@ -163,22 +218,21 @@
 <header>
   <div class="wrap bar">
     <div class="brand">
-      <svg viewBox="0 0 40 44" fill="none" aria-hidden="true"><circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="2"/><line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><path d="M17.3 33.5 h5.4 l-1.1 3.6 h-3.2 Z" fill="#16140f"/><path d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/></svg>
+      <svg viewBox="0 0 40 44" fill="none" aria-hidden="true"><circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="2"/><line x1="15" y1="29" x2="25" y2="29" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><line x1="16.75" y1="31" x2="23.25" y2="31" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><line x1="18.25" y1="33" x2="21.75" y2="33" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><path d="M20.00 9.00 L21.53 13.90 L26.66 13.84 L22.47 16.80 L24.11 21.66 L20.00 18.60 L15.89 21.66 L17.53 16.80 L13.34 13.84 L18.47 13.90 Z" fill="#6d4bf2"/></svg>
       Inventionistas
     </div>
-    <nav class="links" aria-label="Primary"><a href="#thesis">Thesis</a><a href="#loop">Autoresearch</a><a href="#contact">Contact</a></nav>
+    <nav class="links" aria-label="Primary"><a href="#thesis">Thesis</a><a href="#loop">Autoresearch</a><a href="#crew">Crew</a><a href="#contact">Contact</a></nav>
   </div>
 </header>
 
 <main>
   <section class="hero" aria-label="Introduction">
     <div id="sg-root" aria-hidden="true"></div>
+    <div id="hero-ov" aria-hidden="true"></div>
+    <div id="hero-scrim" aria-hidden="true"></div>
     <div class="wrap">
-      <div class="hero-tag" aria-hidden="true"><span>// Inventionistas</span><span class="r">AI for invention</span></div>
-      <svg class="mark" data-hero viewBox="0 0 40 44" fill="none" aria-hidden="true"><circle cx="20" cy="16" r="11" stroke="#16140f" stroke-width="2"/><line x1="14" y1="30.5" x2="26" y2="30.5" stroke="#16140f" stroke-width="2" stroke-linecap="round"/><path d="M17.3 33.5 h5.4 l-1.1 3.6 h-3.2 Z" fill="#16140f"/><path id="heroSpark" d="M20 9 L21.77 14.23 L27 16 L21.77 17.77 L20 23 L18.23 17.77 L13 16 L18.23 14.23 Z" fill="#6d4bf2"/></svg>
       <h1 id="headline" aria-label="Building AI Inventors.">Building <span class="violet">AI</span> Inventors.</h1>
       <p class="lede" data-hero>How can we harness AI to drive humankind forward? What if AI was truly creative? Systems that recombine the vast scientific literature and human expertise to create breakthroughs.</p>
-      <div class="scrollcue" aria-hidden="true">[ scroll ]</div>
     </div>
   </section>
 
@@ -199,30 +253,45 @@
       <div class="sec-head"><span class="label">The autoresearch loop</span></div>
       <p class="loop-lead reveal">AI that runs the research loop by itself.</p>
       <div class="steps">
-        <div class="step reveal"><div class="sn">01</div><div class="sk">Propose</div><h4>Generate ideas</h4><p>It proposes hypotheses, recombining insight from distant and unconnected fields.</p></div>
-        <div class="step reveal"><div class="sn">02</div><div class="sk">Experiment</div><h4>Run experiments</h4><p>It designs and runs tests to put each idea under real pressure.</p></div>
-        <div class="step reveal"><div class="sn">03</div><div class="sk">Verify</div><h4>Check results</h4><p>It keeps what holds, discards what fails, and starts the loop again.</p></div>
+        <div class="step reveal"><span class="bob"><canvas class="mascot rivec" data-char="brainy" style="aspect-ratio:460/640" role="img" aria-label="Brainy, the idea brain"></canvas></span><div class="sn">01</div><div class="sk">Propose</div><h4>Generate ideas</h4><p>It proposes hypotheses, recombining insight from distant and unconnected fields.</p></div>
+        <div class="step reveal"><span class="bob"><canvas class="mascot rivec" data-char="sparky" style="aspect-ratio:460/680" role="img" aria-label="Sparky the Robot"></canvas></span><div class="sn">02</div><div class="sk">Experiment</div><h4>Run experiments</h4><p>It designs and runs tests to put each idea under real pressure.</p></div>
+        <div class="step reveal"><span class="bob"><canvas class="mascot rivec" data-char="gritty" style="aspect-ratio:440/540" role="img" aria-label="Gritty Gear"></canvas></span><div class="sn">03</div><div class="sk">Verify</div><h4>Check results</h4><p>It keeps what holds, discards what fails, and starts the loop again.</p></div>
       </div>
       <p class="loop-note reveal"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.46-3.54" stroke="#6d4bf2" stroke-width="1.5" stroke-linecap="round"/><path d="M11 1.5 L11.5 4.5 L8.5 4.2" stroke="#6d4bf2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Then it repeats, on its own</p>
     </div>
   </section>
 
+  <section id="crew" aria-label="The crew">
+    <div class="wrap">
+      <div class="sec-head"><span class="label">The crew</span></div>
+      <div class="crew">
+        <div class="mem reveal"><span class="bob"><canvas class="rivec" data-char="sparky" style="aspect-ratio:460/680" role="img" aria-label="Sparky the Robot"></canvas></span><span class="nm">Sparky</span><span class="rl">builds the rigs</span></div>
+        <div class="mem reveal"><span class="bob"><canvas class="rivec" data-char="gritty" style="aspect-ratio:440/540" role="img" aria-label="Gritty Gear"></canvas></span><span class="nm">Gritty</span><span class="rl">keeps it turning</span></div>
+        <div class="mem reveal"><span class="bob"><canvas class="rivec" data-char="brainy" style="aspect-ratio:460/640" role="img" aria-label="Brainy"></canvas></span><span class="nm">Brainy</span><span class="rl">has the ideas</span></div>
+        <div class="mem reveal"><span class="bob"><canvas class="rivec" data-char="zap" style="aspect-ratio:440/700" role="img" aria-label="Zap"></canvas></span><span class="nm">Zap</span><span class="rl">bright sparks</span></div>
+        <div class="mem reveal"><span class="bob"><canvas class="rivec" data-char="tinker" style="aspect-ratio:460/780" role="img" aria-label="Tinker"></canvas></span><span class="nm">Tinker</span><span class="rl">tunes it all</span></div>
+      </div>
+    </div>
+  </section>
+
   <section id="contact" aria-label="Get in touch">
     <div class="wrap">
-      <div class="sec-head"><span class="label">Get in touch</span></div>
-      <div class="contact">
-        <div>
-          <h2 class="contact-h reveal">Wanna build with us?</h2>
-          <p class="contact-p reveal">For researchers who want to collaborate, and for teams with hard, real problems that could be good test cases.</p>
-          <p class="contact-alt reveal">Prefer email? Reach us at <a href="mailto:founders@inventionistas.com">founders@inventionistas.com</a></p>
+      <div class="contact-card reveal">
+        <div class="contact">
+          <div class="contact-l">
+            <div class="label">Get in touch</div>
+            <h2 class="contact-h">Wanna build with us?</h2>
+            <p class="contact-p">For researchers who want to collaborate, and for teams with hard, real problems that could be good test cases.</p>
+            <p class="contact-alt">Prefer email? Reach us at <a href="mailto:founders@inventionistas.com">founders@inventionistas.com</a></p>
+          </div>
+          <form class="cform" id="cform" novalidate aria-label="Contact form">
+            <label>Name<input type="text" name="name" required autocomplete="name" /></label>
+            <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+            <label>What are you working on?<textarea name="message" rows="4" required></textarea></label>
+            <button type="submit" id="csubmit">Send <span aria-hidden="true">&#8594;</span></button>
+            <p class="cstatus" id="cstatus" role="status" aria-live="polite"></p>
+          </form>
         </div>
-        <form class="cform reveal" id="cform" novalidate aria-label="Contact form">
-          <label>Name<input type="text" name="name" required autocomplete="name" /></label>
-          <label>Email<input type="email" name="email" required autocomplete="email" /></label>
-          <label>What are you working on?<textarea name="message" rows="4" required></textarea></label>
-          <button type="submit" id="csubmit">Send <span aria-hidden="true">&#8594;</span></button>
-          <p class="cstatus" id="cstatus" role="status" aria-live="polite"></p>
-        </form>
       </div>
     </div>
   </section>
@@ -286,7 +355,7 @@
   lpct(0);
 
   var tll=gsap.timeline({ delay:0.1, onComplete:function(){
-    gsap.to(loaderEl,{opacity:0,duration:0.45,ease:'power2.out',onComplete:function(){ loaderEl.style.display='none'; heroReveal(); }});
+    gsap.to(loaderEl,{opacity:0,duration:0.45,ease:'power2.out',onComplete:function(){ loaderEl.style.display='none'; heroReveal(); gsap.delayedCall(1.3, function(){ if(window.startGradient) window.startGradient(); }); }});
   }});
   tll.to('#lbulb',{opacity:1,scale:1,duration:0.45,ease:'back.out(1.6)'},0);
   tll.to('#lsparkle',{opacity:1,scale:1,rotation:0,duration:0.8,ease:'back.out(2.2)'},0.3);
@@ -319,7 +388,9 @@
 })();
 </script>
 <script type="module">
-  (async function(){
+  var __sgStarted = false;
+  async function startGradient(){
+    if (__sgStarted) return; __sgStarted = true;
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     try {
       const React = (await import('react')).default;
@@ -328,11 +399,70 @@
       const e = React.createElement;
       const el = document.getElementById('sg-root');
       const root = createRoot(el);
-      const url = 'https://www.shadergradient.co/customize?animate=' + (reduce ? 'off' : 'on') + '&axesHelper=off&bgColor1=%23f4f1ea&bgColor2=%23f4f1ea&brightness=1.3&cAzimuthAngle=180&cDistance=3.2&cPolarAngle=90&cameraZoom=1&color1=%23f0ebff&color2=%23b49cff&color3=%23f6b8dd&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&grain=off&lightType=3d&pixelDensity=1&positionX=0.7&positionY=0&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0&reflection=0.1&rotationX=0&rotationY=10&rotationZ=50&shader=defaults&type=waterPlane&uDensity=1.3&uFrequency=5.5&uSpeed=0.26&uStrength=1.6&uTime=0&wireframe=false';
+      const url = 'https://www.shadergradient.co/customize?animate=' + (reduce ? 'off' : 'on') + '&axesHelper=off&bgColor1=%23000000&bgColor2=%23000000&brightness=0.35&cAzimuthAngle=180&cDistance=14.59&cPolarAngle=115&cameraZoom=1&color1=%235606ff&color2=%23fe8989&color3=%23000000&destination=onCanvas&embedMode=off&envPreset=city&fov=30&frameRate=10&gizmoHelper=hide&grain=off&lightType=3d&pixelDensity=1.2&positionX=0&positionY=0&positionZ=0.4&range=disabled&rangeEnd=18.9&rangeStart=0&reflection=0&rotationX=50&rotationY=0&rotationZ=225&shader=defaults&type=waterPlane&uAmplitude=0&uDensity=1.3&uFrequency=5.5&uSpeed=0.06&uStrength=8.6&uTime=0.2&wireframe=false';
       root.render(e(ShaderGradientCanvas, { style: { position: 'absolute', inset: 0 } }, e(ShaderGradient, { control: 'query', urlString: url })));
-      setTimeout(function(){ el.classList.add('in'); }, 500);
-    } catch (err) { console.warn('ShaderGradient unavailable, hero stays clean paper:', err); }
-  })();
+      requestAnimationFrame(function(){ el.classList.add('in'); });
+    } catch (err) { console.warn('ShaderGradient unavailable, hero stays clean:', err); }
+  }
+  window.startGradient = startGradient;
+  setTimeout(startGradient, 4000);
+</script>
+<script>
+(function(){
+  var header=document.querySelector('header'), hero=document.querySelector('.hero');
+  if(!header||!hero) return;
+  function onScroll(){ if(window.scrollY > hero.offsetHeight - 72){ header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); } }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll); onScroll();
+})();
+</script>
+<script src="https://unpkg.com/@rive-app/canvas@2"></script>
+<script>
+(function(){
+  if(typeof rive==='undefined') return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cvs=[].slice.call(document.querySelectorAll('canvas.rivec'));
+  var insts=[];
+  cvs.forEach(function(cv){
+    var name=cv.getAttribute('data-char');
+    var r=new rive.Rive({
+      src:'assets/rive/'+name+'-rig.riv', canvas:cv, artboard:name,
+      animations:'idle', autoplay:!reduce,
+      layout:new rive.Layout({fit:'contain'}),
+      onLoad:function(){ try{ r.resizeDrawingSurfaceToCanvas(); }catch(e){} cv.__rive=r; }
+    });
+    insts.push(r);
+  });
+  if(!reduce && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        var r=e.target.__rive; if(!r) return;
+        try{ if(e.isIntersecting){ r.play(); } else { r.pause(); } }catch(err){}
+      });
+    },{threshold:0.08});
+    cvs.forEach(function(cv){ io.observe(cv); });
+  }
+  var rt;
+  window.addEventListener('resize', function(){ clearTimeout(rt); rt=setTimeout(function(){ insts.forEach(function(r){ try{ r.resizeDrawingSurfaceToCanvas(); }catch(e){} }); }, 160); });
+})();
+</script>
+<script>
+/* crew interactivity: hover lift + click bounce */
+(function(){
+  if(typeof gsap==='undefined') return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce) return;
+  document.querySelectorAll('.crew canvas.rivec').forEach(function(cv){
+    cv.addEventListener('mouseenter',function(){ gsap.to(cv,{y:-14,scale:1.12,duration:.38,ease:'power3.out',overwrite:'auto'}); });
+    cv.addEventListener('mouseleave',function(){ gsap.to(cv,{y:0,scale:1,duration:.45,ease:'power3.out',overwrite:'auto'}); });
+    cv.addEventListener('click',function(){
+      var hov = cv.matches(':hover');
+      gsap.timeline({overwrite:'auto'})
+        .to(cv,{y:-34,scale:1.2,duration:.17,ease:'power2.out'})
+        .to(cv,{y:(hov?-14:0),scale:(hov?1.12:1),duration:.62,ease:'elastic.out(1,0.45)'});
+    });
+  });
+})();
 </script>
 </body>
 </html>
