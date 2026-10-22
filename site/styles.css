@@ -186,12 +186,7 @@ section{position:relative;padding:clamp(88px,13vw,180px) var(--gutter)}
 .loop-pin{min-height:100svh;display:flex;flex-direction:column;justify-content:center}
 .loop-title{font-weight:700;font-size:clamp(40px,5.6vw,100px);line-height:.95;letter-spacing:-.03em;max-width:11em}
 .loop-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:center;margin-top:clamp(32px,5vw,72px)}
-.stages-wrap{position:relative;padding-left:26px}
-.loop-track{position:absolute;left:0;top:0;bottom:44px;width:2px;background:var(--line-2);border-radius:2px;overflow:hidden}
-.lp-fill{position:absolute;inset:0;background:var(--violet);transform-origin:top;transform:scaleY(0)}
-.loop-count{margin-top:16px;color:var(--ink);display:flex;align-items:baseline;gap:6px}
-.loop-count .lc-n{color:var(--violet-ink)}
-.loop-count .lc-hint{margin-left:auto;color:var(--dim)}
+.stages-wrap{position:relative}
 .stages{list-style:none;display:flex;flex-direction:column}
 .stage{position:relative;transition:opacity .5s var(--ease)}
 .stage-hit{position:absolute;inset:0;width:100%;background:transparent;border:0;cursor:pointer;z-index:1;border-radius:6px}
